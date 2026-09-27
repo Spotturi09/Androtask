@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Androtask</string>
+    <string name="greeting">Hello, Androtask!</string>
+</resources>
