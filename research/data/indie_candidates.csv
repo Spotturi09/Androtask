@@ -1,0 +1,170 @@
+package,title,genre,developer,dev_app_count,installs,rating,ratings,contains_ads,iap,iap_price_range,days_since_update,appgoblin_mau,appgoblin_rev_bucket,iap_pct,ad_pct,monthly_installs,dev_tools_sdks,ad_networks,business_sdks
+com.jrzheng.supervpnfree,SuperVPN - Fast VPN Proxy,Tools,SuperSoftTech,2,396735141,4.69,5513922,True,True,$2.99 - $59.99 per item,17,27M,$1M+,53,47,+2.5M,Google;Square;Kotlin;Bumptech,Google,
+com.supervpn.vpn.free.proxy,VPN Proxy Speed - Super VPN,Productivity,TOPAPPS TECH PTE LTD,4,110940306,4.8,1730991,True,True,$1.49 - $39.99 per item,8,9M,$500K+,55,45,+1.9M,Google;Unity;Square;Airbnb Engineering,Google;Facebook;AppLovin;Unity,Volcengine
+com.offline.bible,Bible Offline-KJV Holy Bible,Books & Reference,Bíblia Offline,9,125030260,4.89,11869446,True,True,$0.99 - $49.99 per item,6,17.7M,$1M+,57,43,+2.9M,Google;Square;Airbnb Engineering;Kotlin,Google;Facebook;InMobi;ByteDance,Volcengine;Kakao
+com.indymobileapp.document.scanner,Clear Scan - PDF Scanner App,Business,Indy Mobile App,1,49442594,4.73,490627,True,True,$0.99 - $19.99 per item,9,1.9M,$100K+,47,53,+440K,Google;Square;Kotlin;ReactiveX,Google;Facebook;AppLovin;InMobi,Volcengine
+com.tianxingjian.supersound,"Music Audio Editor, MP3 Cutter",Music & Audio,"Video Screen Recorder, V",6,62350383,4.54,1405553,True,True,$0.99 - $29.99 per item,23,1.6M,$100K+,42,58,+379K,Google;Unity;Square;Kotlin,Google;Facebook;AppLovin;Unity,Volcengine
+ai.socialapps.speakmaster,PolyBuzz: Live Your Story,Entertainment,CLOUD WHALE INTERACTIVE ,1,58620827,3.95,1215404,True,True,$0.05 - $599.00 per item,20,2.4M,$200K+,65,35,+1.1M,Google;Unity;Square;Airbnb Engineering,Google;Facebook;AppLovin;Unity,Volcengine;Keepsafe
+splendid.logomaker.designer,Logo maker Design Logo creator,Business,Splendid App Maker,6,34970010,4.53,369686,True,True,$1.99 - $19.99 per item,87,543K,$50K+,32,68,+39K,Google;Square;Airbnb Engineering;Kotlin,Google;Facebook,
+icv.resume.curriculumvitae,Resume - Intelligent CV maker,Business,Intelligent CV,1,64026297,4.51,549193,True,False,,18,2.3M,$100K+,0,100,+354K,Google;Unity;Square;Kotlin,Google;Facebook;AppLovin;Unity,
+com.simplescan.scanner,Simple Scan - PDF Scanner App,Business,Easy inc.,6,32573888,4.67,424705,True,True,$0.99 - $89.99 per item,9,548K,$50K+,34,66,+60K,Google;Amazon;Square;Kotlin,Google,LinkedIn
+free.alquran.holyquran,Al QURAN - القرآن الكريم,Books & Reference,"9D Muslim Apps - Quran, ",4,71529615,4.69,1148176,False,True,$0.99 - $24.99 per item,42,3.4M,$100K+,100,0,+627K,Google;Square;Airbnb Engineering;Kotlin,Google,
+com.TTT.logomaker.logocreator.generator.designer,Logo Maker - Logo Creator,Photography,TTT TEAM,3,23117073,4.13,70684,True,True,$1.99 - $38.99 per item,29,63K,$10K+,59,41,+59K,Google;Square;Airbnb Engineering;Kotlin,Google;Facebook,Keepsafe
+com.herman.ringtone,Ringtone Maker:create ringtone,Personalization,Big Bang Inc.,2,100982125,4.73,675887,True,False,,31,1.3M,$50K+,0,100,+2.6K,Google;Kotlin,Google;Facebook;ByteDance;VK,Volcengine
+com.bible.holy.bible.for.women,Bible For Women-Holy Bible KJV,Books & Reference,Bíblia Offline,9,32736410,4.86,4044284,True,True,$1.99 - $59.99 per item,2,3.3M,$200K+,65,35,+1.3M,Google;Unity;Square;Airbnb Engineering,Google;Facebook;Unity;InMobi,Qonversion;Volcengine
+com.remind.drink.water.hourly,Water Reminder - Remind Drink ,Health & Fitness,recorder & smart apps,3,30821954,4.77,410350,True,True,$3.49 per item,55,381K,$10K+,43,57,+123K,Google;Airbnb Engineering,Google,
+com.translate.talkingtranslator,Talking Translator - Languages,Tools,idealappcenter,1,20731685,4.57,158161,True,True,$2.99 - $72.99 per item,8,616K,$50K+,40,60,+182K,Google;Square;Airbnb Engineering;Kotlin,Google;Facebook;AppLovin;Unity,Volcengine;Line;Kakao
+com.qrcode.barcode.scanner.reader.generator.pro,QR Code & Barcode Scanner PRO,Tools,Apps360 Team,5,838740,4.75,20776,False,False,,124,10K,$<10K,,,+1.7K,Google,Google,JourneyApps
+com.AppRocks.now.prayer,Prayer Now : Azan Prayer Times,Lifestyle,Prayer Now By App Rocks ,1,28900228,4.74,1503142,True,True,$0.49 - $9.99 per item,1,438K,$50K+,47,53,+222K,Google;Square;Kotlin;Bumptech,Google;Facebook;Unity;ByteDance,Volcengine
+com.lrhsoft.shiftercalendar,Work Shift Calendar,Productivity,LRHSoft,2,13589456,4.67,190336,True,True,$0.99 - $10.99 per item,423,324K,$10K+,44,56,+138K,Google;Square;Kotlin;Checker Framework,Google,
+com.camvision.qrcode.barcode.reader,QR Code & Barcode Scanner,Tools,QR Easy,1,19819822,4.4,100822,True,True,$0.99 per item,300,1.2M,$100K+,26,74,+20K,Google,Google,
+com.barcode.qrcode.scanner.reader.pro,QR Code Scanner & Generator,Tools,Apps360 Team,5,711712,4.58,13800,True,False,,123,7.2K,$<10K,0,100,+1K,,,
+com.mobilecreatures.drinkwater,Water Time Tracker & Reminder,Health & Fitness,Mobile Creatures,3,10039553,4.51,160053,True,True,$0.99 - $29.99 per item,332,32K,$<10K,44,56,+12K,Google,Google,
+relax.sleep.relaxation.sleepingsounds,Sleep Sounds - relaxing sounds,Health & Fitness,Craftsman Spirit,5,9845745,4.81,214417,True,True,$0.99 - $14.99 per item,295,116K,$10K+,41,59,+38K,Google;Unity;Square;Kotlin,Google;AppLovin;Unity;InMobi,PayPal;LinkedIn
+com.bible.holybible.nkjv.dailyverse,Bible-Daily Bible Verse,Books & Reference,Bíblia Offline,9,13917725,4.82,546184,True,True,$0.99 - $49.99 per item,13,1.1M,$50K+,59,41,+262K,Google;Unity;Square;Airbnb Engineering,Google;Facebook;AppLovin;Unity,ThinkingData
+alpha.sticker.maker,Animated Sticker Maker (FSM),Art & Design,"Memento Apps, Inc",1,23111834,4.57,211535,True,True,$0.99 - $2.99 per item,70,441K,$10K+,43,57,+117K,Google;Square;Airbnb Engineering;Kotlin,Google;AppLovin;Digital Turbine;Fyber,
+com.easymobs.pregnancy,Pregnancy App,Parenting,Amila,6,10145991,4.9,478117,True,True,$1.99 - $100.00 per item,11,144K,$10K+,46,54,+48K,Google;Square,Google;AppLovin,
+holy.bible.kjv.kingjamesbible.verse.biblia,"Holy Bible, KJV Bible + Audio",Books & Reference,WOOMBIT,4,8373293,4.68,31938,True,True,$0.49 - $29.99 per item,372,662K,$10K+,58,42,+138K,Google;Unity;Square;Airbnb Engineering,Google;Facebook;AppLovin;Unity,Volcengine
+com.ykart.tool.qrcodegen,QR Code Generator,Tools,YenKu,8,5018050,3.81,10258,True,True,$1.49 - $9.99 per item,4,318K,$10K+,34,66,+28K,,,
+com.bdroid.audiomediaconverter,Audio Converter (MP3 AAC OPUS),Music & Audio,Bdroid Team,4,11037187,4.66,32581,True,True,$4.99 per item,1,208K,$10K+,66,34,+85K,Google;Unity;Square;Kotlin,Google;Facebook;AppLovin;Unity,Keepsafe
+com.photowidgets.magicwidgets,MagicWidgets - iOS Widgets,Personalization,Zhengzhou Junying TECHNO,5,9842487,2.49,40958,False,True,$3.99 - $39.99 per item,708,14K,$<10K,100,0,+5.4K,Google;Unity;Square;Airbnb Engineering,Google;Facebook;AppLovin;Unity,Volcengine
+com.lescapadou.tracingfree,Writing Wizard - Alphabet ABC,Education,L'Escapadou,7,11910486,3.95,8985,False,True,$0.99 - $7.99 per item,87,92K,$<10K,100,0,+79K,Google;Cocos,,
+homeworkout.fitness.app,Workout Planner Gym Log・Fit AI,Health & Fitness,Social Tech.,3,9218731,4.67,479661,False,True,$5.99 - $179.00 per item,6,548K,$50K+,100,0,+495K,Google;Square;Airbnb Engineering;Kotlin,,
+com.lt.ieltspracticetest,IELTS Practice Band 9,Education,LT EduApp,6,3914443,4.75,38037,True,True,$0.99 - $39.99 per item,0,47K,$<10K,79,21,+40K,Google;Flutter;MongoDB;Square,Google,
+com.dmvwrittentest.android,Driver Written Test: 2026 Test,Education,DMV Written Test,2,3890788,4.7,105892,True,True,$10.99 - $38.99 per item,22,57K,$<10K,68,32,+39K,Google;Unity;Square;Kotlin,Google;Facebook;AppLovin;Unity,Volcengine
+com.financial.calculator,Financial Calculators,Finance,Bishinews,7,7127543,4.42,22689,True,False,,174,738K,$10K+,0,100,+13K,,,
+com.brunoschalch.timeuntil,"Time Until: Countdowns, Widget",Lifestyle,Handcrafted Apps and Gam,3,6366654,4.61,51275,True,True,$1.99 - $7.99 per item,23,343K,$10K+,30,70,+26K,Google;Square;Kotlin,Google;Facebook,
+com.wallhub.wallpaper.parallax.video,WallHub HD Video Wallpapers 4K,Personalization,Signature EXP,6,5366539,3.85,968,True,True,$4.99 - $20.99 per item,1,226K,$50K+,70,30,+408K,Google;Unity;Square;Airbnb Engineering,Google;Facebook;AppLovin;Unity,Volcengine
+pdf.converter.imagetopdf.jpgtopdf,Image to PDF Converter,Productivity,Convenient & Easy Apps,8,4198847,4.72,69757,True,True,$2.99 per item,3,248K,$10K+,73,27,+141K,Google;Bumptech,Google,
+com.wallapers.sillysmiles.live.wallpaper,Wallpics - Live Wallpapers 4K,Personalization,Gamentica,1,3864128,4.71,63495,True,True,$1.99 - $12.99 per item,35,127K,$10K+,83,17,+178K,Google;Unity;Square,Google;Facebook;AppLovin;Unity,Volcengine
+ai.aiart.aiartgenerator.creart,AI Image Generator - CreArt,Art & Design,Yawai,5,3842342,4.19,112082,True,True,$2.49 - $599.99 per item,37,180K,$10K+,55,45,+32K,Google;Flutter;Kotlin,Google;Facebook,RevenueCat
+com.kidsworld.learn.music.play,Kids & Toddlers Learn and Play,Education,Kids World: Children & P,3,5593086,4.18,4170,False,True,$3.99 - $69.99 per item,4,102K,$<10K,100,0,+73K,Google;Facebook;Square;React Native,,Shopify
+ascendik.drinkwaterreminder.hydration.watertracker.drinkwater,Drink Water Reminder & Tracker,Health & Fitness,Better Life - Health App,2,2559044,4.56,24225,True,True,$2.99 - $7.99 per item,385,151K,$10K+,31,69,+16K,Google;Airbnb Engineering;Jake Wharton,Google,
+com.amila.parenting,"Baby tracker - feeding, sleep",Parenting,Amila,6,3294232,4.89,135597,True,True,$2.99 - $30.00 per item,5,52K,$<10K,41,59,+17K,Google;Square;Kotlin,Google;AppLovin,
+com.aadhk.time,Timesheet - Work Hours Tracker,Business,aadhk,5,4782128,4.63,65028,False,True,$0.99 - $29.99 per item,2,119K,$<10K,100,0,+14K,Google;Square;Kotlin;OpenTelemetry,Google,
+com.bigbeep.cattranslate,Cat Translator Pet Talk Meow,Entertainment,BarabApps,9,9413484,3.84,33146,True,False,,0,434K,$10K+,0,100,+11K,,,
+com.nbow.photowidget,Photo Widget Easy,Personalization,JAYESH DABHI,4,3009139,4.71,29147,True,True,$2.99 - $59.99 per item,214,54K,$10K+,80,20,+82K,Google;Square;Bumptech,Google;Vungle,
+artify.ai.logomaker,Logo Maker - AI Art Design,Art & Design,Smart AI DEV,9,4512954,4.48,43015,False,True,$4.99 - $79.99 per item,2,279K,$10K+,100,0,+97K,Google;Flutter;Kotlin;JetBrains,Google;Facebook,
+com.dddev.Shift_Work_Calendar,Shift Work Schedule Calendar,Productivity,4th floor apps,7,2535659,4.11,52240,True,True,$2.99 per item,54,31K,$<10K,44,56,+11K,Google;Unity;Square;Airbnb Engineering,Google;Facebook;AppLovin;Unity,Volcengine
+com.developersol.offline.translator.all.languagetranslator,Offline Translator: Transee,Tools,DeveloperSol,3,1695199,4.34,32207,True,True,$2.99 - $12.99 per item,64,159K,$10K+,45,55,+44K,,,
+com.resume.builder.cv.maker.create.resume,Resume Builder - CV Maker App,Business,Trusted PDF Tools,7,1497812,4.33,5232,True,True,$8.99 - $29.99 per item,19,163K,$10K+,49,51,+32K,Google;Unity;Square;Airbnb Engineering,Google;Facebook;AppLovin;Unity,RevenueCat;Volcengine
+text.write.font.calligraphy.writer,xCanvas,Art & Design,xType,5,8354682,4.56,116988,False,True,$0.09 - $3.74 per item,0,153K,$<10K,100,0,+2.7K,Google;Square,Google,
+com.zeedev.islamprayertime,Prayer Times - Qibla & Salah,Lifestyle,ZeeDev Islam,1,2075972,4.91,60563,True,True,$1.99 - $100.00 per item,50,121K,$<10K,51,49,+11K,Google;Square;Kotlin;Bumptech,Google,
+com.icedblueberry.shoppinglisteasy,Shopping List - Simple & Easy,Shopping,Opulogic Inc,2,3798770,4.43,30034,True,True,$1.99 - $2.99 per item,11,133K,$10K+,58,42,+39K,Google;Square;Kotlin;Greenrobot,Google;Facebook,
+com.tarahonich.relaxsleepsounds,Sleep Sounds: White Noise,Health & Fitness,Beforest Apps,0,1122901,4.67,22766,True,True,$7.99 - $9.99 per item,84,31K,$<10K,45,55,+15K,Google;Square;Koin,Google,
+com.meditation.elevenminute,Let's Meditate: Relax & Sleep,Health & Fitness,Let's Meditate Team,2,2436022,4.74,68421,False,True,$2.49 - $99.99 per item,162,133K,$<10K,100,0,+2.3K,,,
+com.meqr,ME-QR: QR Code Generator,Tools,Me Team,3,2324035,4.25,4852,False,True,$9.99 - $104.99 per item,1,112K,$<10K,100,0,+38K,,,
+com.developersol.all.language.translator,Language Translator - Offline,Tools,DeveloperSol,3,951672,3.92,16597,True,True,$2.99 - $11.99 per item,91,65K,$<10K,54,46,+41K,,,
+com.baraamnotgeet.calculator.loan,Loan Calculator+,Finance,Nemtootkem Nerootnem,2,1653607,4.15,662,True,False,,59,293K,$10K+,0,100,+325K,Google;Square;Airbnb Engineering;Kotlin,Google;Facebook;AppLovin;InMobi,Volcengine;ThinkUp
+com.fiveprayer.app,FivePrayer - Pray on Time,Lifestyle,FivePrayer,2,1858761,4.79,223529,False,True,$0.99 - $99.99 per item,2,128K,$<10K,100,0,+62K,Google;Square;Flutter;Kotlin,Google;Facebook,RevenueCat
+com.nalabe.calendar.workShift,Nalabe Shift Work Calendar,Productivity,Nalabe,1,1812695,4.75,44974,False,True,$4.99 - $14.99 per item,9,62K,$<10K,100,0,+33K,Google;Facebook;Square;React Native,Google,
+com.firstcry.playbees.learn.grow.kids.preschool.toddler.numbers.abc.rhymes.games.stories.books,"FirstCry: ABC, 123 Kids Games",Educational,Brainbees Solutions Pvt.,1,1745686,3.73,3276,False,True,$2.99 - $99.99 per item,392,4.7K,$<10K,100,0,+841,Google;Unity;Kotlin;Checker Framework,Google,
+com.mediaconverter.mp3videoconverter.videotomp3converter,Video to MP3 Converter,Video Players & Editors,Convenient & Easy Apps,8,2371317,4.61,14902,True,True,$2.29 per item,79,162K,$10K+,54,46,+86K,Google;Square;Kotlin;Bumptech,Google,
+ru.mob.crca,EMI loan calculator,Finance,MastersOfBunkers,4,1388880,4.11,9086,True,False,,6,43K,$<10K,0,100,+9.7K,,,
+proton.android.pass,Password Manager - Proton Pass,Productivity,Proton AG,9,1667966,4.76,63896,False,True,$4.99 - $119.88 per item,0,100K,$<10K,100,0,+67K,Google;Sentry.io;Square;Airbnb Engineering,,JourneyApps
+com.herman.ringpod,MP3 Cutter and Ringtone Maker,Music & Audio,Big Bang Inc.,2,2922783,4.69,23219,True,False,,2009,176K,$10K+,0,100,+838,,,
+locket.live,PicPat - Photos Widget & Share,Social,Build4world,4,1459087,3.23,2713,False,True,$0.99 - $9.99 per item,813,127K,$<10K,100,0,+885,Google;Square;Airbnb Engineering;Kotlin,Google;Facebook;ByteDance;VK,Supercharge
+com.tapuniverse.aiartgenerator,AI Art Generator: AI Picture,Art & Design,TAPUNIVERSE,1,1441166,4.21,69457,False,True,$0.99 - $39.99 per item,182,34K,$<10K,100,0,+2.9K,Google;Square;Kotlin;Bumptech,Google;Facebook,
+com.hair.ai.filter.color.changer.app,HairApp: AI Hairstyle Try On,Photography,xLabs Dijital Hizmetler ,2,1216081,4.3,53847,False,True,$7.99 - $39.99 per item,58,24K,$<10K,100,0,+24K,Google;Facebook;Sentry.io;Square,Google;Facebook;One Signal,Adapty
+com.scifate.salvia,Salvia - Tarot & Videncia,Lifestyle,Scifate,6,1140339,4.73,34551,False,True,$0.99 - $329.99 per item,92,27K,$<10K,100,0,+5.2K,Google;Square;Airbnb Engineering;Flutter,Google;Facebook;Huawei;NetEase,Agora
+partl.workinghours,WorkingHours Time Tracker,Business,Timo Partl,4,509842,4.92,4011,True,True,$0.99 - $15.99 per item,1,25K,$<10K,39,61,+7.3K,Google;Square;Kotlin;Mono Project,Google,
+meal.planner,Meal Planner & Macro Tracker,Food & Drink,youmealplan.com,4,1097914,4.82,20868,False,True,$3.39 - $10.99 per item,23,56K,$<10K,100,0,+36K,Google;Sentry.io;Flutter;Kotlin,,
+kb2.soft.fuelmanager,Fuel Manager (Consumption),Auto & Vehicles,KB2 SOFT,2,1112325,4.38,8252,False,True,$0.49 - $9.49 per item,455,5.9K,$<10K,100,0,+1.2K,Google;Square;Kotlin;Checker Framework,Google,
+com.awesomedroid.whitenoise.pro,White Noise Pro - Sleep Sound,Health & Fitness,AwesomeDroid Studio,6,229764,4.53,3901,False,False,,850,12K,$<10K,,,+106,,,
+com.monsterschool.colorcal,Mental Math - Number King,Education,Monster School,0,980461,3.84,1943,False,True,$18.99 per item,89,25K,$<10K,100,0,+2.6K,Google;Unity,,
+com.dmapps.mindcal,Mental Calculation Training,Educational,DM Mobile Apps,9,644817,3.93,3355,True,True,$1.79 - $19.99 per item,70,17K,$<10K,74,26,+10K,,,
+com.budget.tracker_app,Cashew—Expense Budget Tracker,Finance,Dapper App Developer,4,959090,4.85,28602,False,True,$1.49 - $19.99 per item,41,83K,$<10K,100,0,+19K,Google;Flutter;Kotlin,,
+com.akilliuygulamalar.expertbettingtips,SuperTips: Sports Betting Tips,Sports,SuperTips Mobile,1,956455,4.52,11054,False,True,$15.00 - $350.00 per item,101,36K,$<10K,100,0,+4.5K,Google;Square;Airbnb Engineering;Kotlin,Google;Facebook,Twitter X;Stripe;PayPal;Sendbird
+com.voicetranslator.SpeakAndTranslatePro,Offline translator S&T PRO,Tools,Pavel Donov,1,28018,4.11,2279,False,False,,819,73,$<10K,,,+9.00,,,
+com.fin.plan,Budge・Savings & Budget Planner,Finance,Budge Apps,2,687634,4.46,6372,False,True,$0.99 - $25.99 per item,169,64K,$<10K,100,0,+15K,Google;Square;Kotlin,Facebook,Adapty
+com.girls.game.nails.art.salon,Nail Art Salon for Kids Game,Educational,TapJoy,3,1364800,4.74,5522,True,False,,99,84K,$<10K,0,100,+63K,Google;Cocos,Google,
+com.reworewo.prayertimes,Prayer Times and Qibla,Lifestyle,zero_,1,4105539,4.69,28298,False,True,$1.49 per item,316,117K,$<10K,100,0,+44K,Google;Square;Kotlin;Checker Framework,Google,
+de.sourcedev.lovecounterV2,Count Love: Couple Life Timer,Lifestyle,SourCeDev,1,609069,4.71,4828,False,True,$2.49 - $47.99 per item,28,29K,$<10K,100,0,+15K,Google;Square;Kotlin;JetBrains,,Keepsafe
+pro.shineapp.shiftschedule,Shift Schedule: Calendar+Alarm,Productivity,Volodymyr Kondratenko,5,262382,3.74,2240,True,True,$0.99 - $9.99 per item,12,19K,$<10K,31,69,+1.2K,,,
+tech.tcsolution.cdt,Days counter (countdown timer),Productivity,TC Solution Inc.,8,1155438,4.69,7535,False,True,$4.99 per item,27,34K,$<10K,100,0,+14K,,,
+com.kg.app.sportdiary,Workout Tracker - GymKeeper,Health & Fitness,GDev,1,548765,4.72,8749,False,True,$0.99 - $39.99 per item,240,11K,$<10K,100,0,+6.7K,Google;Square;Kotlin;MongoDB,VK,
+com.verdantlabs.nametrix,Baby Name Genius - Find Names,Parenting,Verdant Labs,0,346102,3.86,736,True,True,$2.99 - $24.99 per item,3,3.9K,$<10K,42,58,+1.5K,Google;Facebook;Square;Airbnb Engineering,Google;Facebook,
+com.aluntapps.rainsounds,Rain Thunderstorm Sleep Sounds,Lifestyle,Sleep Sounds - Relaxing ,3,575330,4.81,8753,True,True,$3.99 per item,34,15K,$<10K,45,55,+7.2K,Google;Square;Kotlin;Checker Framework,Google;AppLovin;InMobi;Vungle,
+com.cars.android.carapps.carnotes,Car service tracker,Auto & Vehicles,Aleksey Mikheev,3,333270,3.92,1346,True,True,$3.99 - $8.49 per item,92,10K,$<10K,43,57,+3.8K,Google;Square;Airbnb Engineering;Kotlin,Google,
+com.typingmaster.typetest,Typing Master - Speed Test,Education,Quantum Software Solutio,3,373554,0,,True,False,,115,19K,$<10K,0,100,+25K,Google;Unity;Square;Kotlin,Google;Unity,
+com.screencraft.app,ScreenCraft: 4K Wallpapers,Personalization,AppixoStudio,9,248111,4.51,6805,True,True,$0.99 - $19.99 per item,91,7.3K,$<10K,78,22,+10K,Google;Unity;Square;Kotlin,Google;Facebook;AppLovin;Unity,Volcengine;RevenueCat
+dev.giamma.type_racer,Typing Test: Fast Typing Game,Word,Giamma Studios,1,346202,3.93,5353,False,True,$0.99 - $59.99 per item,15,7.8K,$<10K,100,0,+5.4K,Google;Square;Airbnb Engineering;Bumptech,,RevenueCat
+com.scifate.salviaplus,Salvia - Tarot & Psychics,Lifestyle,Scifate,6,341339,4.68,10442,False,True,$0.99 - $329.99 per item,3,9.4K,$<10K,100,0,+1.2K,Google;Square;Airbnb Engineering;Flutter,Google;Facebook;Huawei;NetEase,Agora
+com.andrzejsalwin.motorcyclefuellogfree,Fuel Log: Gas Expenses Tracker,Auto & Vehicles,YewDistrictStudio,5,225570,4.21,2580,True,True,$1.99 - $24.99 per item,134,3.1K,$<10K,48,52,+1.1K,Google;Flutter;Kotlin,Google,
+ielts.vocabulary.builder,IELTS Vocabulary PRO,Education,LT EduApp,6,210324,4.33,1537,True,True,$3.99 per item,14,1.4K,$<10K,54,46,+796,Google;Flutter;Kotlin,Google,
+com.one.ielts_prep_app,IELTS Practice & Prep OneIELTS,Education,Acadion Global,4,296611,4.8,712,False,True,$0.49 - $39.99 per item,200,11K,$<10K,100,0,+3.4K,Google;Flutter;Kotlin,,
+com.photizy.photoeditor,AI Photo Enhancer & Remover BG,Photography,ReigarTech,1,128017,0,,True,True,$0.19 - $33.99 per item,0,990,$<10K,37,63,+154,Google;Square;Bumptech;ONNX Runtime,Google,Supercharge
+com.desti.babynames,Baby Names - Name with Meaning,Books & Reference,Destini,3,552502,1.38,796,True,False,,0,2.1K,$<10K,0,100,+11,,,
+com.free.ringtones.ringtone.maker.alarm.sounds,Ringtone maker for android,Personalization,VAVA Music Player - MP3 ,6,544711,4.35,1295,True,False,,174,1.6K,$<10K,0,100,+1.7K,,,
+com.third.eye.brainwaves.chakra.meditation,Third Eye Opening Pineal Gland,Health & Fitness,TOPD Ltd.,8,269972,4.68,19461,False,True,$19.99 - $69.99 per item,119,9.7K,$<10K,100,0,+1.9K,Google;Flutter;Kotlin;Bumptech,,RevenueCat
+com.rongyee.color.dreamy,Dreamy Painting-Coloring Book,Puzzle,Coloring Fans Group,3,173117,4.52,826,True,True,$0.99 - $69.99 per item,5,19K,$<10K,61,39,+19K,,,
+com.yiqi.chakra.meditation.bowls,Chakra Healing & Meditation,Health & Fitness,TOPYD LLC,7,250409,4.68,15185,False,True,$9.99 - $69.99 per item,33,21K,$<10K,100,0,+3.3K,Google;Flutter;Kotlin;Bumptech,,RevenueCat
+com.wedus.esportlogomakeroffline,Esport Logo Maker Offline,Art & Design,WEDUS,1,483365,3.76,1188,True,False,,138,22K,$<10K,0,100,+5.8K,Google;Kotlin;Bumptech,,
+com.hikaru.photowidget,Animated Photo Widget +,Photography,Hikaru Inc.,2,109360,4.04,2663,False,False,,2039,91,$<10K,,,+74,,,
+app.vinztech.tickit,Habit Tracker - TickOff,Productivity,vinztech.app,6,297840,4.66,3913,False,True,$0.99 - $7.99 per item,40,30K,$<10K,100,0,+17K,Google;Square;Flutter;Kotlin,Facebook;One Signal,RevenueCat
+com.finance.emi.calculate.paid,EMI Calculator Premium,Finance,Techinfornity,1,13565,4.22,442,False,False,,13,738,$<10K,,,+33,,,
+lc.st.free,Timesheet & Work Hours Tracker,Business,Leon Chiver,1,221055,4.6,4389,False,True,$0.99 - $31.99 per item,0,3.9K,$<10K,100,0,+1.4K,Google;Airbnb Engineering;Kotlin;OpenTelemetry,Google,
+com.pratapbrothers.typingspeedtest.typingmaster,Typing Speed Test Master,Productivity,Pratap Brothers,7,381786,4.08,2952,False,True,$5.49 per item,156,19K,$<10K,100,0,+6.9K,,,
+com.govttyping.practice,Typing Practice,Education,akhand,2,95547,3.88,650,True,True,$0.49 - $9.49 per item,4,5.1K,$<10K,63,37,+6K,,,
+com.gohary.habitradar,Habit Tracker - Habit Radar,Productivity,Goal Tracker,4,203275,4.48,5707,False,True,$4.99 - $29.99 per item,71,11K,$<10K,100,0,+3.1K,,,
+artify.ai.tattoomaker,AI Tattoo Design: ArtReel,Art & Design,Smart AI DEV,9,177305,4.59,2198,False,True,$4.99 - $79.99 per item,0,17K,$<10K,100,0,+7.2K,Google;Square;Kotlin;Bumptech,Google;Facebook,
+com.novopic.creatorapp,Ai Tattoo ldeas-Art Generator,Art & Design,Leading Software Develop,9,172946,4.54,7650,False,True,$3.99 - $59.99 per item,0,9.9K,$<10K,100,0,+3.6K,Google;Square;Flutter;Bumptech,Google;Facebook,
+com.vetrov.zodiology,Zodiology: Horoscope & Tarot,Lifestyle,Mysterious Apps LLC,9,115018,4.67,3681,True,True,$4.99 - $49.99 per item,8,8.5K,$<10K,33,67,+896,Google;Facebook;Sentry.io;Square,Google;Facebook,Shopify
+com.tapuniverse.resumebuilder,Resume Builder - CV Maker,Business,TAPUNIVERSE,1,168730,4.56,4071,False,True,$1.99 - $19.99 per item,119,30K,$<10K,100,0,+1K,Google;Flutter,,
+com.moocsoft.math_puzzle,Math Puzzles: Brain Riddles,Puzzle,Moocsoft,5,107441,4.21,686,True,True,$3.99 - $19.99 per item,19,2.5K,$<10K,39,61,+445,,,
+com.sreeragag.pixwalls,pix Walls - 4K Wallpapers,Personalization,sreerag,0,160240,4.13,750,False,True,$0.99 - $14.99 per item,463,1.1K,$<10K,100,0,+1.3K,,,
+com.onesmart.pets.cat.translator.meowtalkie,Meow Room - Cat translator,Entertainment,CheerChirp Tech,1,158597,1.75,250,False,True,$1.99 - $9.99 per item,32,6K,$<10K,100,0,+1.6K,,,
+com.anasoftco.mycar,my car Maintenance Manager,Auto & Vehicles,saycoder,3,287642,3.94,2035,False,True,$1.99 - $4.99 per item,96,4.9K,$<10K,100,0,+2.3K,Google;Airbnb Engineering;Bumptech,,
+im.fdx.qrcode,QR Code Scanner - Generator,Tools,XiaoDev,3,285754,4.31,2470,False,True,$3.99 - $4.99 per item,126,26K,$<10K,100,0,+3.9K,,,
+com.betsover.BetsOver,BetsOver - Betting Tips,Sports,AybukApp,2,140985,2.86,697,False,True,$5.99 - $54.99 per item,53,27K,$<10K,100,0,+4.5K,Google;Square;Kotlin;JetBrains,Google;Facebook,RevenueCat
+com.earthcoding.calendarfor2019,Hindu Panchang Calendar 2027,Books & Reference,InnoWaysIT Apps,2,266417,0,,True,False,,106,32K,$<10K,0,100,+1.8K,,,
+com.passwordmanager.droidpass,DroidPass: Password Manager,Productivity,DroidApp BD,5,117604,4.62,1347,False,True,$0.49 - $17.99 per item,22,1.6K,$<10K,100,0,+285,Google;Flutter;Kotlin,,Keepsafe
+com.angel.cutmax,CutMax: AI Haircut Try On,Lifestyle,Cutmax,1,103904,4.31,11241,False,True,$1.89 - $12.99 per item,13,10K,$<10K,100,0,+11K,Google;Facebook;Square;Airbnb Engineering,Google;Facebook,RevenueCat;Superwall
+com.morgantrudeau.employeelink,Employee Link・Time Tracking,Business,Magnify Technologies Inc,3,102688,4.81,1473,False,True,$4.99 - $499.99 per item,2,15K,$<10K,100,0,+430,Google;Facebook;Square;Airbnb Engineering,Google,Keepsafe;Bugsnag
+app.cryptopulse.android,CryptoPulse AI - Crypto Signal,Tools,Morteza Salmanpour,7,96942,4.59,7056,False,True,$0.99 - $99.99 per item,762,4.8K,$<10K,100,0,+1.1K,Google;Square;Kotlin;JetBrains,,
+com.apponur.uscitizenshiptest,US Citizenship Test 2026,Education,Apponur,2,95588,4.68,2258,False,True,$2.99 - $24.99 per item,30,1.8K,$<10K,100,0,+1K,,,
+com.top.betting.tips.today.prediction,Betting Tips Predictions,Sports,AI Sport Tips by Sourspa,3,90663,4.71,3178,False,True,$2.89 - $114.99 per item,90,19K,$<10K,100,0,+4.9K,Google;Facebook;Square;React Native,Google;One Signal,Adapty
+com.jresa.mathGuru.mentalArithmetic,Mental Math Games for Adults,Educational,Jonatan Resa Fernandez,9,180047,4.6,1796,True,False,,7,3K,$<10K,0,100,+408,,,
+com.chakra.balance.meditation.healing,Chakra Healing: Balance Energy,Health & Fitness,TOPD Ltd.,8,80077,4.64,4962,False,True,$14.99 - $59.99 per item,82,5K,$<10K,100,0,+3K,,,
+com.cinfer.horoscope_app,Helia: Horoscope & Birth Chart,Lifestyle,Apollum,3,78252,4.5,1158,False,True,$0.49 - $31.99 per item,41,2.9K,$<10K,100,0,+937,Google;Square;Flutter;Kotlin,Google;Facebook,RevenueCat
+ee.prey.triplog,Vehicle Trip Logbook Tracker,Finance,FrensApp,1,162920,4.5,2711,False,True,$1.99 - $4.49 per item,103,19K,$<10K,100,0,+498,,,
+com.listmaker.shoppinglist.grocerylist,Shopping List & Calculator,Shopping,Money Saver & Shopping L,7,51782,4.81,1093,True,True,$8.99 per item,0,6.3K,$<10K,48,52,+3.9K,Google;Flutter;Kotlin,Google,
+app.yog.zeelwalls,Zeel Walls - 4K Wallpapers,Personalization,YoG,3,71672,4.08,497,False,True,$0.49 - $29.99 per item,12,1.4K,$<10K,100,0,+2.4K,Google;Facebook;Square;Airbnb Engineering,Google;One Signal,RevenueCat;Shopify
+com.walloo.wallpapper,Walloo: 4K Wallpapers HD,Personalization,Halo Apps,3,39389,4.68,428,True,True,$1.99 - $22.99 per item,0,5.3K,$<10K,76,24,+7.4K,Google;Unity;Square;Flutter,Google;Facebook;Unity,
+com.bois.ielts,IELTSMate: IELTS Speaking Prep,Education,Boiskhon,1,54151,4.75,840,False,True,$3.99 - $17.99 per item,3,9.7K,$<10K,100,0,+15K,,,
+in.telect.soccertipa,34Pick: Soccer Predictions,Sports,Apptric Technologies,6,34823,3.6,530,True,True,$1.29 - $29.99 per item,0,4.8K,$<10K,43,57,+2.1K,Google;Square;Kotlin;Bumptech,Google,RevenueCat
+com.goldprice.live,Gold Price Live Update,Finance,Digital Media Karya,4,22455,0,,True,True,$0.49 - $15.99 per item,0,3.3K,$<10K,50,50,+1.4K,,,
+com.amila.whitenoise,White Noise: Baby Sleep Sounds,Health & Fitness,Amila,6,40330,4.91,921,True,False,,0,3K,$<10K,0,100,+1.8K,Google,Google,
+com.vednovak.flutter_tip_calculator,Tip Calculator & Bill Split,Food & Drink,Flatrion Apps,5,48375,4.71,771,False,True,$0.99 - $19.99 per item,9,1.6K,$<10K,100,0,+197,Google;Flutter,,
+com.stonecutters.islegrow,Habit Tracker: IsleGrow,Productivity,Stonecutters,1,47376,3.5,176,False,True,$3.59 - $49.99 per item,58,3.7K,$<10K,100,0,+1.8K,,,
+com.jtnrdev.vehiclemaintenance,Vehicle Maintenance Log,Auto & Vehicles,JtnrDev,5,74717,4.07,245,False,True,$5.99 per item,16,6.2K,$<10K,100,0,+3K,Google;Square;Kotlin,,
+com.wloo.airesume,Resume Builder AI App CV Maker,Productivity,Pilot Ventures,1,43206,4.63,584,False,True,$4.99 - $17.99 per item,0,1.7K,$<10K,100,0,+78,,,
+com.dwil.predwit,Predwit - Football Predictions,Sports,Dwil,2,42768,4.64,287,False,True,$0.49 - $49.99 per item,5,5.6K,$<10K,100,0,+1.6K,Google;Square;Flutter,Google,RevenueCat
+com.photo.widget,Widget Gallery: Photo Widget,Personalization,Lean Bytes,7,45784,3.71,338,True,True,$0.49 - $4.09 per item,3,5.2K,$<10K,70,30,+9.4K,,,
+com.indise.tattoos_app,Ta2 - AI Tattoo Generator,Art & Design,Okeksandr,3,41132,3.51,292,False,True,$1.99 - $39.99 per item,18,1.3K,$<10K,100,0,+90,Google;Flutter,Facebook,RevenueCat
+florida.dmvtest.app,Florida DMV Practice Test 2027,Education,Nikel Studio Pte Ltd,8,18259,4.74,255,True,True,$9.99 per item,181,448,$<10K,58,42,+355,,,
+com.app.ggpredict,GG AI Football Predictions,Sports,MONEQUE,5,35977,0,,False,True,$2.99 - $79.99 per item,0,12K,$<10K,100,0,+12K,Google;Flutter;Kotlin,Google;Facebook,RevenueCat
+com.QuiteHypnotic.FireCalendar,Spark Shift Work Calendar,Productivity,E.L.K. Equities,0,54989,4.8,3456,False,True,$0.99 - $5.99 per item,162,89,$<10K,100,0,+2.00,Google;Square;Kotlin;Checker Framework,Google,
+com.themelisx.myshifts_pro,my Work Shifts: Shift Calendar,Tools,Themelis Christos,0,31653,4,1114,False,True,$2.19 - $33.99 per item,0,5.3K,$<10K,100,0,+32K,,,
+com.junelab.lottonumbermate,Lotto Number Mate - Lottery,Tools,kimjunehong,9,20840,0,,True,True,$0.99 - $2.99 per item,0,3.3K,$<10K,61,39,+3.5K,,,
+com.asifrezan.Lovecalculatorpro,Love calculator pro,Entertainment,REZAN,9,34126,0,,True,True,$0.49 - $3.99 per item,0,1K,$<10K,70,30,+1.4K,,,
+com.borysk.dreamy,Dreamy: AI Dream Interpreter,Health & Fitness,OneByte.Studio,2,29525,4.43,426,False,True,$4.99 - $45.99 per item,19,1.9K,$<10K,100,0,+1K,,,
+com.itdeveapps.brownnoise,"Brown Noise, Sleep Sounds: BRW",Health & Fitness,ItDeveApps,6,28764,4.52,646,False,True,$2.99 - $29.99 per item,5,2.4K,$<10K,100,0,+1.8K,,,
+com.typingguru.typingbaba.practice.typingtest,TypingGuru: Learn & Practice,Education,shailendrapedia,4,22168,0,,True,False,,36,2.3K,$<10K,0,100,+3.9K,,,
+california.dmvtest.app,California DMV Practice Test,Education,Nikel Studio Pte Ltd,8,11972,4.68,169,True,True,$9.99 per item,62,572,$<10K,71,29,+762,,,
+web.app.outlearn,OutLearn: Flashcards & Study,Education,OutLearn,2,24793,4.4,276,False,True,$1.99 - $19.99 per item,2,456,$<10K,100,0,+664,,,
+com.pedrosstudio.caresleep,CareSleep: Sleep Sounds,Music & Audio,Petr Drábek,2,24626,4.54,511,False,True,$2.99 - $19.99 per item,89,2K,$<10K,100,0,+320,,,
+app.biblenow.client,BibleNow: Audio Bible Stories,Books & Reference,MyAppDesk,9,24597,4.5,1832,False,True,$1.99 - $99.99 per item,9,2.6K,$<10K,100,0,+680,Google;Unity;Sentry.io;Square,Google;Facebook;AppLovin;Unity,RevenueCat;Volcengine;Keepsafe
+com.xiaoruo.watertracker,Water Tracker - Drink Reminder,Health & Fitness,Shenzhen Xiaoruo Technol,2,10874,4.5,256,True,True,$3.99 - $9.99 per item,0,1K,$<10K,43,57,+452,,,
+app.holy_bible_apps_and_audio_scriptures.en_kjv,King James Bible+offline audio,Books & Reference,Holy Bible Apps & Audio ,8,22349,4.51,426,True,True,$4.99 per item,0,3.3K,$<10K,47,53,+1.2K,,,
+documentscanning.app,CleanScanner - PDF Scanner App,Productivity,Ronasoft Media,6,19792,0,,False,True,$1.99 - $9.99 per item,0,2.2K,$<10K,100,0,+1.9K,,,
+com.goldsilver.tracker.app,Gold & Silver Price Live,Finance,PJMT,5,14734,4.89,57,True,False,,52,2.6K,$<10K,0,100,+1.6K,,,
+sszj.s.mobiletypingmaster,Mobile Typing Tutor,Education,Syeda Soghat Zehra Jaffr,9,14070,0,,True,False,,0,387,$<10K,0,100,+139,,,
+com.vcodestudio.imagetopdfconverter,Image to PDF - PDF Converter,Productivity,Plainfield IO,9,12554,0,,True,False,,0,1.4K,$<10K,0,100,+1.1K,,,
+com.kjm.stepcounter,Simple Step Counter,Health & Fitness,K.J.M.,7,38333,4.8,1805,False,True,$2.49 - $3.79 per item,15,3.2K,$<10K,100,0,+2.6K,Google,,
+com.usmandroid.whatsapp.sticker.maker,Sticker Maker for WhatsApp,Communication,UsmanDroid,5,13741,0,,False,True,$3.99 - $34.99 per item,0,3.5K,$<10K,100,0,+3.9K,,,
+com.fincalc.financialcalc,Mortgage Calculator: Home Loan,Finance,JustForYou Apps,3,13329,0,,False,True,$1.99 - $49.99 per item,0,2.1K,$<10K,100,0,+1.5K,,,
+com.itreeapp.wallifywallpaper,Wallpaper 4K HD,Personalization,Itreemedia,5,20599,0,,True,False,,0,1.6K,$<10K,0,100,+4.7K,,,
+com.keke.baby_match,Baby Match - Baby Names 2026,Parenting,fefe LABS,4,20315,0,,True,False,,0,875,$<10K,0,100,+137,Google;Flutter;Kotlin,Google,
+europasscvmake.app.dev,CV Maker PDF - Resume Builder,Business,MWK Apps,5,10936,0,,False,True,$2.49 - $7.99 per item,0,2.3K,$<10K,100,0,+1.6K,,,
+com.christian.babynames,Christian Baby Names & Meaning,Books & Reference,BizzBucket,4,11846,0,,True,False,,0,1.4K,$<10K,0,100,+92,,,
