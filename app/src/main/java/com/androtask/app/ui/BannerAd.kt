@@ -6,7 +6,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
+import com.androtask.app.AdsInit
 import com.androtask.app.BuildConfig
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
@@ -18,6 +21,9 @@ import com.google.android.gms.ads.AdView
 @Composable
 fun BannerAd(modifier: Modifier = Modifier) {
     if (!BuildConfig.ADS_ENABLED) return
+    // Only create the AdView once the SDK has finished initialising (see AdsInit).
+    val ready by AdsInit.ready.collectAsState()
+    if (!ready) return
     val widthDp = LocalConfiguration.current.screenWidthDp
     val context = LocalContext.current
     AndroidView(
