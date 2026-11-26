@@ -14,4 +14,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Androtask"
-include(":app")
+include(":app", ":core")

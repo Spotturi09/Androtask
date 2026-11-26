@@ -1,4 +1,3 @@
 <resources>
-    <string name="app_name">Androtask</string>
-    <string name="greeting">Hello, Androtask!</string>
+    <string name="app_name">Resume Builder</string>
 </resources>
