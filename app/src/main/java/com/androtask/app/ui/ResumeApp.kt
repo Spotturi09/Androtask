@@ -15,7 +15,13 @@ fun ResumeApp(vm: ResumeViewModel = viewModel()) {
         }
         composable("edit/{id}") { entry ->
             val id = entry.arguments?.getString("id").orEmpty()
-            EditorScreen(vm, id, onBack = { nav.popBackStack() }, onPreview = { nav.navigate("preview/$id") })
+            EditorScreen(
+                vm, id,
+                onBack = { nav.popBackStack() },
+                onPreview = { nav.navigate("preview/$id") },
+                // Open the AI-improved copy in place of the original's editor.
+                onOpenResume = { newId -> nav.navigate("edit/$newId") { popUpTo("home") } },
+            )
         }
         composable("preview/{id}") { entry ->
             val id = entry.arguments?.getString("id").orEmpty()

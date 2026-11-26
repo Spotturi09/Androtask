@@ -36,6 +36,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
+import com.androtask.app.ai.AiException
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
@@ -106,17 +112,65 @@ private fun <T> List<T>.moved(i: Int, delta: Int): List<T> {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditorScreen(vm: ResumeViewModel, id: String, onBack: () -> Unit, onPreview: () -> Unit) {
+fun EditorScreen(vm: ResumeViewModel, id: String, onBack: () -> Unit, onPreview: () -> Unit, onOpenResume: (String) -> Unit) {
     val all by vm.resumes.collectAsState()
     val resume = all.firstOrNull { it.id == id }
     val update: (Resume) -> Unit = { vm.update(it) }
 
+    // ---- AI state ----
+    val scope = rememberCoroutineScope()
+    val snackbar = remember { SnackbarHostState() }
+    var busy by remember { mutableStateOf<String?>(null) }
+    var aiError by remember { mutableStateOf<AiException?>(null) }
+    var showAiSettings by remember { mutableStateOf(false) }
+    var showTailor by remember { mutableStateOf(false) }
+
+    /** Runs an AI call with a progress dialog; asks for the API key first if missing. */
+    fun <T> runAi(message: String, call: suspend () -> Result<T>, onOk: (T) -> Unit) {
+        if (!vm.aiSettings.configured) { showAiSettings = true; return }
+        scope.launch {
+            busy = message
+            val r = call()
+            busy = null
+            r.onSuccess(onOk).onFailure { aiError = it as? AiException }
+        }
+    }
+
+    /** Applies an AI edit to one field and offers Undo. */
+    fun applyWithUndo(apply: (Resume) -> Resume, revert: (Resume) -> Resume) {
+        vm.resume(id)?.let { vm.update(apply(it)) }
+        scope.launch {
+            val res = snackbar.showSnackbar("Updated by Gemini — check the [brackets]", actionLabel = "Undo", duration = SnackbarDuration.Long)
+            if (res == SnackbarResult.ActionPerformed) vm.resume(id)?.let { vm.update(revert(it)) }
+        }
+    }
+
+    val aiActions = AiActions(
+        improveSummary = {
+            val old = vm.resume(id)?.summary.orEmpty()
+            runAi("Writing your summary…", { vm.aiSummary(id) }) { text ->
+                applyWithUndo({ it.copy(summary = text) }, { it.copy(summary = old) })
+            }
+        },
+        improveBullets = { expId ->
+            val old = vm.resume(id)?.experience?.firstOrNull { it.id == expId }?.description.orEmpty()
+            fun set(r: Resume, d: String) = r.copy(experience = r.experience.map { if (it.id == expId) it.copy(description = d) else it })
+            runAi("Improving bullet points…", { vm.aiBullets(id, expId) }) { text ->
+                applyWithUndo({ set(it, text) }, { set(it, old) })
+            }
+        },
+    )
+
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbar) },
         topBar = {
             TopAppBar(
                 title = { Text(resume?.title ?: "Resume", maxLines = 1) },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back") } },
                 actions = {
+                    IconButton(onClick = { if (vm.aiSettings.configured) showTailor = true else showAiSettings = true }) {
+                        Icon(Icons.Default.AutoAwesome, "Improve or tailor with AI")
+                    }
                     TextButton(onClick = onPreview) {
                         Icon(Icons.Default.PictureAsPdf, null); Spacer(Modifier.width(6.dp)); Text("Preview")
                     }
@@ -154,7 +208,7 @@ fun EditorScreen(vm: ResumeViewModel, id: String, onBack: () -> Unit, onPreview:
                     onToggleHidden = { update(resume.toggleHidden(section)) },
                     onUp = if (idx > 0) ({ update(resume.moveSection(section, -1)) }) else null,
                     onDown = if (idx < order.lastIndex) ({ update(resume.moveSection(section, 1)) }) else null,
-                ) { SectionEditor(section, resume, update) }
+                ) { SectionEditor(section, resume, update, aiActions) }
             }
             item {
                 Button(onClick = onPreview, modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) {
@@ -163,7 +217,24 @@ fun EditorScreen(vm: ResumeViewModel, id: String, onBack: () -> Unit, onPreview:
             }
         }
     }
+
+    if (showAiSettings) AiSettingsDialog(vm.aiSettings, onDismiss = { showAiSettings = false })
+    if (showTailor) TailorDialog(onDismiss = { showTailor = false }) { job ->
+        showTailor = false
+        scope.launch { vm.flush(id) }
+        runAi(if (job.isBlank()) "Improving your resume…" else "Tailoring your resume to the job…", { vm.improveWithAi(id, job) }) { newId ->
+            onOpenResume(newId)
+        }
+    }
+    busy?.let { AiBusyDialog(it) }
+    aiError?.let { e ->
+        AiErrorDialog(e.message ?: "Unknown error", onDismiss = { aiError = null },
+            onOpenSettings = if (e.kind in setOf(AiException.Kind.NO_KEY, AiException.Kind.BAD_KEY, AiException.Kind.BAD_MODEL)) ({ showAiSettings = true }) else null)
+    }
 }
+
+/** AI actions offered inside section editors. */
+class AiActions(val improveSummary: () -> Unit, val improveBullets: (experienceId: String) -> Unit)
 
 @Composable
 private fun ProgressCard(r: Resume) {
@@ -285,12 +356,15 @@ private fun PersonalEditor(vm: ResumeViewModel, r: Resume, update: (Resume) -> U
 }
 
 @Composable
-private fun ColumnScope.SectionEditor(section: SectionType, r: Resume, update: (Resume) -> Unit) {
+private fun ColumnScope.SectionEditor(section: SectionType, r: Resume, update: (Resume) -> Unit, ai: AiActions) {
     when (section) {
         SectionType.SUMMARY -> {
             Field("Professional summary", r.summary, { update(r.copy(summary = it)) }, multiline = true,
                 placeholder = "2–3 sentences about who you are and what you offer")
-            PhraseButton("Example summaries", PhraseKind.SUMMARY) { update(r.copy(summary = it)) }
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                AiChip("Improve with AI", ai.improveSummary)
+                PhraseButton("Examples", PhraseKind.SUMMARY) { update(r.copy(summary = it)) }
+            }
         }
         SectionType.EXPERIENCE -> {
             r.experience.forEachIndexed { i, e ->
@@ -310,8 +384,11 @@ private fun ColumnScope.SectionEditor(section: SectionType, r: Resume, update: (
                     }
                     Field("Achievements (one per line)", e.description, { set(e.copy(description = it)) }, multiline = true,
                         placeholder = "Increased sales by 20%…")
-                    PhraseButton("Suggest bullet points", PhraseKind.BULLET) {
-                        set(e.copy(description = appendLine(e.description, it)))
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        AiChip("Improve with AI") { ai.improveBullets(e.id) }
+                        PhraseButton("Examples", PhraseKind.BULLET) {
+                            set(e.copy(description = appendLine(e.description, it)))
+                        }
                     }
                 }
             }
@@ -388,6 +465,11 @@ private fun ColumnScope.SectionEditor(section: SectionType, r: Resume, update: (
             Field("Content (one point per line)", r.customContent, { update(r.copy(customContent = it)) }, multiline = true)
         }
     }
+}
+
+@Composable
+private fun AiChip(label: String, onClick: () -> Unit) {
+    AssistChip(onClick = onClick, label = { Text(label) }, leadingIcon = { Icon(Icons.Default.AutoAwesome, null) })
 }
 
 private fun appendLine(text: String, line: String) = if (text.isBlank()) line else text.trimEnd() + "\n" + line

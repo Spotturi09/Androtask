@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -62,6 +64,23 @@ fun HomeScreen(vm: ResumeViewModel, onOpen: (String) -> Unit, onPreview: (String
     var renaming by remember { mutableStateOf<Resume?>(null) }
     var deleting by remember { mutableStateOf<Resume?>(null) }
     var menu by remember { mutableStateOf(false) }
+    var showAiSettings by remember { mutableStateOf(false) }
+    var pickAfterSettings by remember { mutableStateOf(false) }
+    var busy by remember { mutableStateOf<String?>(null) }
+    var aiError by remember { mutableStateOf<com.androtask.app.ai.AiException?>(null) }
+
+    val importAiLauncher = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri != null) scope.launch {
+            busy = "Reading your resume with Gemini…"
+            val r = vm.importWithAi(uri)
+            busy = null
+            r.onSuccess { onOpen(it) }.onFailure { aiError = it as? com.androtask.app.ai.AiException }
+        }
+    }
+    val startImport = {
+        if (vm.aiSettings.configured) importAiLauncher.launch(ImportMimeTypes)
+        else { pickAfterSettings = true; showAiSettings = true }
+    }
 
     val exportLauncher = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
         if (uri != null) scope.launch {
@@ -83,6 +102,12 @@ fun HomeScreen(vm: ResumeViewModel, onOpen: (String) -> Unit, onPreview: (String
                 actions = {
                     IconButton(onClick = { menu = true }) { Icon(Icons.Default.MoreVert, "More") }
                     DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
+                        DropdownMenuItem(text = { Text("Import existing resume (AI)") }, onClick = {
+                            menu = false; startImport()
+                        })
+                        DropdownMenuItem(text = { Text("AI settings") }, onClick = {
+                            menu = false; showAiSettings = true
+                        })
                         DropdownMenuItem(text = { Text("Back up all resumes") }, onClick = {
                             menu = false; exportLauncher.launch("resume-backup.json")
                         })
@@ -103,7 +128,7 @@ fun HomeScreen(vm: ResumeViewModel, onOpen: (String) -> Unit, onPreview: (String
         bottomBar = { Box(Modifier.navigationBarsPadding()) { BannerAd() } },
     ) { padding ->
         if (resumes.isEmpty()) {
-            EmptyState(Modifier.padding(padding))
+            EmptyState(Modifier.padding(padding), onImport = startImport)
         } else {
             LazyColumn(
                 modifier = Modifier.fillMaxSize().padding(padding),
@@ -133,6 +158,17 @@ fun HomeScreen(vm: ResumeViewModel, onOpen: (String) -> Unit, onPreview: (String
             vm.update(r.copy(title = it.ifBlank { r.title })); renaming = null
         }
     }
+    if (showAiSettings) AiSettingsDialog(
+        vm.aiSettings,
+        onDismiss = { showAiSettings = false; pickAfterSettings = false },
+        onSaved = { if (pickAfterSettings && vm.aiSettings.configured) importAiLauncher.launch(ImportMimeTypes) },
+    )
+    busy?.let { AiBusyDialog(it) }
+    aiError?.let { e ->
+        AiErrorDialog(e.message ?: "Unknown error", onDismiss = { aiError = null },
+            onOpenSettings = if (e.kind in setOf(com.androtask.app.ai.AiException.Kind.NO_KEY,
+                    com.androtask.app.ai.AiException.Kind.BAD_KEY, com.androtask.app.ai.AiException.Kind.BAD_MODEL)) ({ showAiSettings = true }) else null)
+    }
     deleting?.let { r ->
         AlertDialog(
             onDismissRequest = { deleting = null },
@@ -145,7 +181,7 @@ fun HomeScreen(vm: ResumeViewModel, onOpen: (String) -> Unit, onPreview: (String
 }
 
 @Composable
-private fun EmptyState(modifier: Modifier) {
+private fun EmptyState(modifier: Modifier, onImport: () -> Unit) {
     Column(
         modifier.fillMaxSize().padding(32.dp),
         verticalArrangement = Arrangement.Center,
@@ -160,6 +196,15 @@ private fun EmptyState(modifier: Modifier) {
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
+        Spacer(Modifier.height(24.dp))
+        androidx.compose.material3.OutlinedButton(onClick = onImport) {
+            Icon(androidx.compose.material.icons.Icons.Default.AutoAwesome, null)
+            Spacer(Modifier.width(8.dp))
+            Text("Import existing resume")
+        }
+        Text("PDF, Word, text or photo — filled in by Gemini AI",
+            style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(top = 6.dp))
     }
 }
 

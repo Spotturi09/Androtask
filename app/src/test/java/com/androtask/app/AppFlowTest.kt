@@ -85,3 +85,18 @@ class ReorderHideFlowTest : FlowTestBase() {
 
 /** Same as the real app but without ad SDK initialisation. */
 class TestApp : android.app.Application()
+
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [33], application = TestApp::class)
+class AiSettingsFlowTest : FlowTestBase() {
+    @Test fun importAsksForKeyFirstAndSavesIt() {
+        val settings = com.androtask.app.ai.AiSettings(ApplicationProvider.getApplicationContext())
+        assertTrue(!settings.configured)
+        rule.onNodeWithText("Import existing resume", useUnmergedTree = true).performClick()
+        rule.onNodeWithText("Gemini AI settings").assertIsDisplayed()
+        rule.onNode(hasSetTextAction() and hasText("Gemini API key")).performTextInput("test-key-123")
+        rule.onNodeWithText("Save", useUnmergedTree = true).performClick()
+        assertEquals("test-key-123", settings.apiKey)
+        assertEquals(com.androtask.app.ai.GeminiClient.DEFAULT_MODEL, settings.model)
+    }
+}

@@ -6,6 +6,9 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.androtask.app.ai.AiException
+import com.androtask.app.ai.AiSettings
+import com.androtask.app.ai.ResumeAi
 import com.androtask.app.data.ResumeRepository
 import com.androtask.app.model.Resume
 import com.androtask.app.pdf.PdfExporter
@@ -24,6 +27,7 @@ import kotlin.math.max
 @OptIn(FlowPreview::class)
 class ResumeViewModel(app: Application) : AndroidViewModel(app) {
     private val repo = ResumeRepository(File(app.filesDir, "resumes"))
+    val aiSettings = AiSettings(app)
 
     private val _resumes = MutableStateFlow<List<Resume>>(emptyList())
     val resumes: StateFlow<List<Resume>> = _resumes.asStateFlow()
@@ -160,5 +164,51 @@ class ResumeViewModel(app: Application) : AndroidViewModel(app) {
             }
             Unit
         }
+    }
+
+    // ---- Gemini AI ----------------------------------------------------------------------
+
+    private fun ai() = ResumeAi(aiSettings.client())
+
+    private fun <T> aiFailure(e: Throwable): Result<T> =
+        Result.failure(if (e is AiException) e else AiException("Something went wrong: ${e.message}", AiException.Kind.BAD_RESPONSE, e))
+
+    /** Reads an existing resume file with Gemini and saves it as a new resume. Returns its id. */
+    suspend fun importWithAi(uri: Uri): Result<String> = withContext(Dispatchers.IO) {
+        try {
+            val cr = getApplication<Application>().contentResolver
+            val mime = cr.getType(uri) ?: "application/octet-stream"
+            val name = cr.query(uri, arrayOf(android.provider.OpenableColumns.DISPLAY_NAME), null, null, null)?.use { c ->
+                if (c.moveToFirst()) c.getString(0) else null
+            } ?: "Imported resume"
+            val bytes = cr.openInputStream(uri)!!.use { it.readBytes() }
+            val resume = ai().importResume(bytes, mime, name)
+            repo.save(resume)
+            withContext(Dispatchers.Main) { _resumes.value = listOf(resume) + _resumes.value }
+            Result.success(resume.id)
+        } catch (e: Exception) { aiFailure(e) }
+    }
+
+    /** Saves an AI-improved (optionally job-tailored) copy and returns its id; the original is untouched. */
+    suspend fun improveWithAi(id: String, jobDescription: String): Result<String> = withContext(Dispatchers.IO) {
+        try {
+            val original = resume(id) ?: error("Resume not found")
+            val improved = ai().improveResume(original, jobDescription)
+            repo.save(improved)
+            withContext(Dispatchers.Main) { _resumes.value = listOf(improved) + _resumes.value }
+            Result.success(improved.id)
+        } catch (e: Exception) { aiFailure(e) }
+    }
+
+    suspend fun aiSummary(id: String): Result<String> = withContext(Dispatchers.IO) {
+        try { Result.success(ai().improveSummary(resume(id) ?: error("Resume not found"))) } catch (e: Exception) { aiFailure(e) }
+    }
+
+    suspend fun aiBullets(id: String, experienceId: String): Result<String> = withContext(Dispatchers.IO) {
+        try {
+            val r = resume(id) ?: error("Resume not found")
+            val job = r.experience.first { it.id == experienceId }
+            Result.success(ai().improveBullets(job, r.personal.jobTitle))
+        } catch (e: Exception) { aiFailure(e) }
     }
 }

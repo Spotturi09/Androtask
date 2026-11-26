@@ -10,6 +10,7 @@ Its main promise is the opposite of what competitors' 1-star reviews complain ab
 |---|---|
 | Sections | Personal details (+ optional photo), Summary, Experience, Education, Skills (with levels), Projects, Certifications, Languages, References, plus a custom section (Interests, Volunteering…) |
 | Editing | Autosave, reorder sections, hide sections, reorder/delete items, "one bullet per line" achievements, resume-strength score + checklist |
+| Gemini AI (optional) | **Import an existing resume** (PDF, Word .docx, text or photo) into editable fields; **Improve with AI** for the summary and each job's bullets (with Undo); **Improve / tailor to a job** creates an improved copy using a pasted job description |
 | Writing help (offline) | Example summaries, achievement bullets and skill suggestions for 8 common roles, plus a list of strong action verbs |
 | Templates | Classic, Modern, Minimal (all ATS-friendly single column) and Sidebar (two-column with photo); 8 accent colours; Sans or Serif |
 | PDF | Real multi-page A4 PDF with page numbers; automatically tightens spacing when that fits the resume on one page fewer |
@@ -41,6 +42,20 @@ checked without a device.
 ./gradlew :app:testDebugUnitTest  # Robolectric UI flows: create → edit → save on background, reorder/hide sections
 ./gradlew :app:assembleDebug      # app/build/outputs/apk/debug/app-debug.apk
 ```
+
+## Gemini AI
+
+AI features use the user's own Gemini API key, entered in **⋮ → AI settings** (free key at
+[Google AI Studio](https://aistudio.google.com/apikey)). The key is stored only in the app's private
+storage on the device and is never in the source code or the APK. The default model is
+`gemini-flash-latest`, and it can be changed in AI settings.
+
+Only resume text or the chosen file is sent to Gemini. The photo is never sent. Prompts tell the model
+not to invent facts and to treat document text as data, not instructions.
+
+For a public release, switch to **Firebase AI Logic** with App Check, so no API key lives on devices.
+Replace `GeminiClient` calls in `ResumeViewModel` with the `firebase-ai` SDK, and add the AI data
+sharing to the Play Data safety form.
 
 ## Before publishing
 
