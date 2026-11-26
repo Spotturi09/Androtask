@@ -38,7 +38,7 @@ checked without a device.
 
 ```bash
 ./gradlew :core:test              # model, storage and layout tests (+ PNGs in core/build/template-previews)
-./gradlew :app:testDebugUnitTest  # Robolectric UI flow tests
+./gradlew :app:testDebugUnitTest  # Robolectric UI flows: create → edit → save on background, reorder/hide sections
 ./gradlew :app:assembleDebug      # app/build/outputs/apk/debug/app-debug.apk
 ```
 

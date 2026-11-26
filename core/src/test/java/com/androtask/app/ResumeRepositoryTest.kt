@@ -38,6 +38,19 @@ class ResumeRepositoryTest {
         assertEquals(a.all().map { it.id }.toSet(), b.all().map { it.id }.toSet())
     }
 
+    @Test fun concurrentSavesOfSameResumeNeverCorruptIt() {
+        val repo = ResumeRepository(tmp.newFolder("r"))
+        val base = SampleData.resume()
+        val threads = (1..8).map { n ->
+            Thread { repeat(50) { i -> repo.save(base.copy(title = "t$n-$i")) } }
+        }
+        threads.forEach { it.start() }; threads.forEach { it.join() }
+        val all = repo.all()
+        assertEquals(1, all.size)
+        assertTrue(all.single().title.startsWith("t"))
+        assertTrue(tmp.root.walk().none { it.name.endsWith(".tmp") })
+    }
+
     @Test fun corruptFilesAreSkippedAndUnknownFieldsIgnored() {
         val dir = tmp.newFolder("r")
         File(dir, "bad.json").writeText("{not json")

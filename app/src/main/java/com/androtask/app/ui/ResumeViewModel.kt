@@ -30,15 +30,31 @@ class ResumeViewModel(app: Application) : AndroidViewModel(app) {
 
     private val pendingSaves = MutableSharedFlow<Resume>(extraBufferCapacity = 64)
 
+    /** Ids edited since their last write to disk. */
+    private val dirty: MutableSet<String> = java.util.concurrent.ConcurrentHashMap.newKeySet()
+
     init {
         refresh()
         // Autosave: persist the latest edit shortly after typing stops.
         viewModelScope.launch {
             pendingSaves.debounce(400).collect { r ->
                 // Skip if the resume was deleted while the save was pending.
-                if (_resumes.value.any { it.id == r.id }) withContext(Dispatchers.IO) { repo.save(r) }
+                if (_resumes.value.any { it.id == r.id }) withContext(Dispatchers.IO) { saveIfDirty(r.id) }
             }
         }
+    }
+
+    @Synchronized
+    private fun saveIfDirty(id: String) {
+        if (dirty.remove(id)) resume(id)?.let { repo.save(it) }
+    }
+
+    /**
+     * Writes every unsaved edit right now. Called when the app goes to the background so
+     * nothing typed in the last moments is lost if Android kills the process.
+     */
+    fun saveDirtyNow() {
+        dirty.toList().forEach { saveIfDirty(it) }
     }
 
     private fun refresh() {
@@ -57,16 +73,18 @@ class ResumeViewModel(app: Application) : AndroidViewModel(app) {
     fun update(resume: Resume) {
         val updated = resume.copy(updatedAt = System.currentTimeMillis())
         _resumes.value = _resumes.value.map { if (it.id == updated.id) updated else it }
+        dirty += updated.id
         pendingSaves.tryEmit(updated)
     }
 
     /** Writes any pending edit immediately (e.g. before exporting). */
     suspend fun flush(id: String) {
-        resume(id)?.let { withContext(Dispatchers.IO) { repo.save(it) } }
+        withContext(Dispatchers.IO) { saveIfDirty(id) }
     }
 
     fun delete(id: String) {
         val photo = resume(id)?.personal?.photoPath
+        dirty -= id
         _resumes.value = _resumes.value.filterNot { it.id == id }
         viewModelScope.launch(Dispatchers.IO) {
             repo.delete(id)

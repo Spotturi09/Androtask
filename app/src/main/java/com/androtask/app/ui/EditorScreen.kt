@@ -203,11 +203,11 @@ private fun SectionCard(
             )
             if (onToggleHidden != null) IconButton(onClick = onToggleHidden) {
                 Icon(if (hidden) Icons.Default.VisibilityOff else Icons.Default.Visibility,
-                    if (hidden) "Show on resume" else "Hide from resume")
+                    if (hidden) "Show $title on resume" else "Hide $title from resume")
             }
             if (onUp != null || onDown != null) {
-                IconButton(onClick = { onUp?.invoke() }, enabled = onUp != null) { Icon(Icons.Default.KeyboardArrowUp, "Move up") }
-                IconButton(onClick = { onDown?.invoke() }, enabled = onDown != null) { Icon(Icons.Default.KeyboardArrowDown, "Move down") }
+                IconButton(onClick = { onUp?.invoke() }, enabled = onUp != null) { Icon(Icons.Default.KeyboardArrowUp, "Move $title up") }
+                IconButton(onClick = { onDown?.invoke() }, enabled = onDown != null) { Icon(Icons.Default.KeyboardArrowDown, "Move $title down") }
             }
             Icon(if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore, null, Modifier.padding(8.dp))
         }
