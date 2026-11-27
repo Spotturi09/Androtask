@@ -173,4 +173,23 @@ class ResumeAiTest {
         assertTrue(requests.isEmpty())
     }
 
+
+    @Test fun checkConnectionHitsModelEndpoint() {
+        reply = """{"name":"models/test-model"}"""
+        client().checkConnection()
+        assertEquals("/v1beta/models/test-model|key=test-key", requests.single().first)
+        status = 404; reply = """{"error":{"message":"not found"}}"""
+        assertEquals(AiException.Kind.BAD_MODEL, assertThrows(AiException::class.java) { client().checkConnection() }.kind)
+    }
+
+    @Test fun networkFailuresNameTheRealCause() {
+        val offline = GeminiClient("k", baseUrl = "http://no-such-host.invalid/v1beta")
+        val e1 = assertThrows(AiException::class.java) { offline.checkConnection() }
+        assertEquals(AiException.Kind.NETWORK, e1.kind)
+        assertTrue(e1.message, e1.message!!.contains("offline") && e1.message!!.contains("UnknownHostException"))
+
+        val refused = GeminiClient("k", baseUrl = "http://127.0.0.1:1/v1beta")
+        val e2 = assertThrows(AiException::class.java) { refused.checkConnection() }
+        assertTrue(e2.message, e2.message!!.contains("ConnectException"))
+    }
 }

@@ -10,6 +10,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
@@ -47,6 +53,9 @@ val ImportMimeTypes = arrayOf(
 fun AiSettingsDialog(settings: AiSettings, onDismiss: () -> Unit, onSaved: () -> Unit = {}) {
     var key by remember { mutableStateOf(settings.apiKey) }
     var model by remember { mutableStateOf(settings.model) }
+    var testing by remember { mutableStateOf(false) }
+    var testResult by remember { mutableStateOf<Pair<Boolean, String>?>(null) }
+    val scope = rememberCoroutineScope()
     val context = LocalContext.current
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -70,6 +79,28 @@ fun AiSettingsDialog(settings: AiSettings, onDismiss: () -> Unit, onSaved: () ->
                     supportingText = { Text("Default: ${GeminiClient.DEFAULT_MODEL}") },
                     modifier = Modifier.fillMaxWidth(),
                 )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    OutlinedButton(
+                        enabled = !testing && key.isNotBlank(),
+                        onClick = {
+                            testing = true; testResult = null
+                            scope.launch {
+                                val r = withContext(Dispatchers.IO) {
+                                    runCatching { GeminiClient(key, model.ifBlank { GeminiClient.DEFAULT_MODEL }).checkConnection() }
+                                }
+                                testing = false
+                                testResult = r.fold({ true to "Connected. Gemini is ready." }, { false to (it.message ?: it.toString()) })
+                            }
+                        },
+                    ) { Text("Test connection") }
+                    if (testing) {
+                        Spacer(Modifier.width(12.dp)); CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.dp)
+                    }
+                }
+                testResult?.let { (ok, msg) ->
+                    Text(msg, style = MaterialTheme.typography.bodySmall,
+                        color = if (ok) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error)
+                }
                 Text("When you use AI, the resume text (or file) is sent to Google's Gemini API. Your photo is never sent.",
                     style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }

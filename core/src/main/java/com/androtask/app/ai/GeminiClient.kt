@@ -33,7 +33,7 @@ class GeminiClient(
     private val apiKey: String,
     val model: String = DEFAULT_MODEL,
     private val baseUrl: String = "https://generativelanguage.googleapis.com/v1beta",
-    private val timeoutMs: Int = 90_000,
+    private val timeoutMs: Int = 120_000,
 ) {
     private val json = Json { ignoreUnknownKeys = true }
 
@@ -65,27 +65,61 @@ class GeminiClient(
             }
         }.toString()
 
-        val conn = try {
-            (URL("$baseUrl/models/$model:generateContent").openConnection() as HttpURLConnection).apply {
-                requestMethod = "POST"
-                doOutput = true
-                connectTimeout = 20_000
-                readTimeout = timeoutMs
-                setRequestProperty("Content-Type", "application/json; charset=utf-8")
-                setRequestProperty("x-goog-api-key", apiKey.trim())
-                outputStream.use { it.write(body.toByteArray()) }
-            }
-        } catch (e: IOException) {
-            throw AiException("Couldn't reach Gemini. Check your internet connection.", AiException.Kind.NETWORK, e)
-        }
-
-        val code = try { conn.responseCode } catch (e: IOException) {
-            throw AiException("Couldn't reach Gemini. Check your internet connection.", AiException.Kind.NETWORK, e)
-        }
-        val text = (if (code in 200..299) conn.inputStream else conn.errorStream)?.use { it.readBytes().decodeToString() }.orEmpty()
-        conn.disconnect()
+        val (code, text) = request("POST", "$baseUrl/models/$model:generateContent", body)
         if (code !in 200..299) throw httpError(code, text)
         return extractText(text)
+    }
+
+    /**
+     * Checks internet access, the API key and the model with a tiny request.
+     * Returns normally on success, otherwise throws an [AiException] that says what's wrong.
+     */
+    fun checkConnection() {
+        if (apiKey.isBlank()) throw AiException("Enter your Gemini API key first.", AiException.Kind.NO_KEY)
+        val (code, text) = request("GET", "$baseUrl/models/$model", null)
+        if (code !in 200..299) throw httpError(code, text)
+    }
+
+    private fun request(method: String, url: String, body: String?): Pair<Int, String> {
+        try {
+            val conn = (URL(url).openConnection() as HttpURLConnection).apply {
+                requestMethod = method
+                connectTimeout = 20_000
+                readTimeout = timeoutMs
+                setRequestProperty("x-goog-api-key", apiKey.trim())
+                if (body != null) {
+                    val bytes = body.toByteArray()
+                    doOutput = true
+                    setRequestProperty("Content-Type", "application/json; charset=utf-8")
+                    setFixedLengthStreamingMode(bytes.size)
+                    outputStream.use { it.write(bytes) }
+                }
+            }
+            val code = conn.responseCode
+            val text = (if (code in 200..299) conn.inputStream else conn.errorStream)?.use { it.readBytes().decodeToString() }.orEmpty()
+            conn.disconnect()
+            return code to text
+        } catch (e: IOException) {
+            throw networkError(e)
+        }
+    }
+
+    /** Turns a low-level network failure into a message that names the actual problem. */
+    private fun networkError(e: IOException): AiException {
+        val detail = "${e.javaClass.simpleName}: ${e.message ?: "no details"}"
+        val msg = when (e) {
+            is java.net.UnknownHostException ->
+                "This device can't look up Google's servers, so it seems to be offline. Check Wi-Fi or mobile data " +
+                    "(on an emulator, open Chrome to test; a Cold Boot usually fixes it)."
+            is java.net.SocketTimeoutException ->
+                "Gemini took too long to answer. Try again, or use a smaller file."
+            is java.net.ConnectException ->
+                "Couldn't connect to Gemini. Check your internet connection or VPN/firewall."
+            is javax.net.ssl.SSLException ->
+                "Secure connection to Gemini failed. Check the device's date and time, or try another network."
+            else -> "Couldn't reach Gemini."
+        }
+        return AiException("$msg\n\nDetails: $detail", AiException.Kind.NETWORK, e)
     }
 
     private fun httpError(code: Int, body: String): AiException {
@@ -94,11 +128,12 @@ class GeminiClient(
         }.getOrDefault(body.take(200))
         return when {
             code == 400 && msg.contains("API key", true) ->
-                AiException("Your Gemini API key was rejected. Check it in AI settings.", AiException.Kind.BAD_KEY)
-            code == 403 -> AiException("Your Gemini API key isn't allowed to use this model. Check it in AI settings.", AiException.Kind.BAD_KEY)
+                AiException("Your Gemini API key was rejected: $msg", AiException.Kind.BAD_KEY)
+            code == 403 -> AiException("Gemini refused this API key: $msg", AiException.Kind.BAD_KEY)
             code == 404 -> AiException("Model \"$model\" wasn't found. Change the model name in AI settings.", AiException.Kind.BAD_MODEL)
             code == 413 -> AiException("That file is too large for Gemini. Try a smaller file.", AiException.Kind.TOO_LARGE)
             code == 429 -> AiException("Gemini usage limit reached. Wait a minute and try again.", AiException.Kind.QUOTA)
+            code == 401 -> AiException("Your Gemini API key was rejected ($msg). Check it in AI settings.", AiException.Kind.BAD_KEY)
             else -> AiException("Gemini error ($code): $msg", AiException.Kind.BAD_RESPONSE)
         }
     }
