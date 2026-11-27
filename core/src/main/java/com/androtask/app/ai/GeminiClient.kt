@@ -10,8 +10,11 @@ import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonObject
 import java.io.IOException
-import java.net.HttpURLConnection
-import java.net.URL
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.util.concurrent.TimeUnit
 import java.util.Base64
 
 /** A part of a Gemini prompt: plain text or an inline file (PDF, image). */
@@ -36,6 +39,11 @@ class GeminiClient(
     private val timeoutMs: Int = 120_000,
 ) {
     private val json = Json { ignoreUnknownKeys = true }
+    private val http = OkHttpClient.Builder()
+        .connectTimeout(20, TimeUnit.SECONDS)
+        .writeTimeout(timeoutMs.toLong(), TimeUnit.MILLISECONDS)
+        .readTimeout(timeoutMs.toLong(), TimeUnit.MILLISECONDS)
+        .build()
 
     /** Sends [parts] and returns the model's text answer. */
     fun generate(parts: List<Part>, jsonOutput: Boolean = false, temperature: Double = 0.3): String {
@@ -81,26 +89,19 @@ class GeminiClient(
     }
 
     private fun request(method: String, url: String, body: String?): Pair<Int, String> {
+        // OkHttp instead of HttpURLConnection: Android's built-in client throws an IOException
+        // ("No authentication challenges found") on a 401 reply, which looked like "no internet".
+        val req = Request.Builder()
+            .url(url)
+            .header("x-goog-api-key", apiKey.trim())
+            .method(method, body?.toRequestBody("application/json; charset=utf-8".toMediaType()))
+            .build()
         try {
-            val conn = (URL(url).openConnection() as HttpURLConnection).apply {
-                requestMethod = method
-                connectTimeout = 20_000
-                readTimeout = timeoutMs
-                setRequestProperty("x-goog-api-key", apiKey.trim())
-                if (body != null) {
-                    val bytes = body.toByteArray()
-                    doOutput = true
-                    setRequestProperty("Content-Type", "application/json; charset=utf-8")
-                    setFixedLengthStreamingMode(bytes.size)
-                    outputStream.use { it.write(bytes) }
-                }
-            }
-            val code = conn.responseCode
-            val text = (if (code in 200..299) conn.inputStream else conn.errorStream)?.use { it.readBytes().decodeToString() }.orEmpty()
-            conn.disconnect()
-            return code to text
+            http.newCall(req).execute().use { resp -> return resp.code to resp.body?.string().orEmpty() }
         } catch (e: IOException) {
             throw networkError(e)
+        } catch (e: IllegalArgumentException) {
+            throw AiException("The API key contains characters that aren't allowed. Paste it again in AI settings.", AiException.Kind.BAD_KEY, e)
         }
     }
 
@@ -133,7 +134,11 @@ class GeminiClient(
             code == 404 -> AiException("Model \"$model\" wasn't found. Change the model name in AI settings.", AiException.Kind.BAD_MODEL)
             code == 413 -> AiException("That file is too large for Gemini. Try a smaller file.", AiException.Kind.TOO_LARGE)
             code == 429 -> AiException("Gemini usage limit reached. Wait a minute and try again.", AiException.Kind.QUOTA)
-            code == 401 -> AiException("Your Gemini API key was rejected ($msg). Check it in AI settings.", AiException.Kind.BAD_KEY)
+            code == 401 -> AiException(
+                "Google rejected this key for the Gemini API ($msg). Create a Gemini API key at " +
+                    "aistudio.google.com/apikey (it usually starts with \"AIza\") and paste it in AI settings.",
+                AiException.Kind.BAD_KEY,
+            )
             else -> AiException("Gemini error ($code): $msg", AiException.Kind.BAD_RESPONSE)
         }
     }

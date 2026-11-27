@@ -143,6 +143,7 @@ class ResumeAiTest {
             return assertThrows(AiException::class.java) { ResumeAi(client()).improveSummary(SampleData.resume()) }.kind
         }
         assertEquals(AiException.Kind.BAD_KEY, kindFor(400, """{"error":{"message":"API key not valid. Please pass a valid API key."}}"""))
+        assertEquals(AiException.Kind.BAD_KEY, kindFor(401, """{"error":{"code":401,"message":"API keys are not supported by this API. Expected OAuth2 access token or other authentication credentials that assert a principal.","status":"UNAUTHENTICATED"}}"""))
         assertEquals(AiException.Kind.QUOTA, kindFor(429, """{"error":{"message":"Resource exhausted"}}"""))
         assertEquals(AiException.Kind.BAD_MODEL, kindFor(404, """{"error":{"message":"models/test-model is not found"}}"""))
         assertEquals(AiException.Kind.BLOCKED, kindFor(200, """{"promptFeedback":{"blockReason":"SAFETY"}}"""))
