@@ -116,10 +116,10 @@ class ResumeAiTest {
             style = ResumeStyle(template = TemplateId.SIDEBAR, accent = 0xFF0F766E),
             hidden = setOf(SectionType.REFERENCES),
         ).let { it.copy(personal = it.personal.copy(photoPath = "/photos/p.jpg")) }.moveSection(SectionType.SKILLS, -3)
-        val improved = ResumeAi(client()).improveResume(original, jobDescription = "ICU nurse wanted")
+        val improved = ResumeAi(client()).tailorToJob(original, jobPosting = "ICU nurse wanted").resume
 
         assertNotEquals(original.id, improved.id)
-        assertEquals("Sample (Tailored)", improved.title)
+        assertEquals("Sample – Tailored", improved.title)
         assertEquals(original.style, improved.style)
         assertEquals(original.sectionOrder, improved.sectionOrder)
         assertEquals(original.hidden, improved.hidden)
@@ -192,5 +192,44 @@ class ResumeAiTest {
         val refused = GeminiClient("k", baseUrl = "http://127.0.0.1:1/v1beta")
         val e2 = assertThrows(AiException::class.java) { refused.checkConnection() }
         assertTrue(e2.message, e2.message!!.contains("ConnectException"))
+    }
+
+    @Test fun careerLevelAppliesLayoutAndReturnsNotes() {
+        reply = geminiAnswer(importedJson.replace("\"unknownField\":true", "\"changeNotes\":[\"Led with strategy\",\" \"]"))
+        val r = ResumeAi(client()).reformatForLevel(SampleData.resume(), com.androtask.app.ai.CareerLevel.EXECUTIVE)
+        assertEquals(listOf("Led with strategy"), r.changes)
+        assertEquals(TemplateId.MINIMAL, r.resume.style.template)
+        assertEquals(com.androtask.app.ai.CareerLevel.EXECUTIVE.order, r.resume.sectionOrder)
+        assertTrue(r.resume.title.endsWith("Executive / Director"))
+        assertTrue(requests.single().second.contains("CAREER LEVEL: Executive"))
+    }
+
+    @Test fun tailorUsesJobTitleAndCompanyInName() {
+        reply = geminiAnswer(importedJson.replace("\"unknownField\":true", "\"targetJobTitle\":\"ICU Nurse\",\"targetCompany\":\"Mayo\""))
+        val r = ResumeAi(client()).tailorToJob(SampleData.resume(), "Job title: ICU Nurse at Mayo")
+        assertEquals("Sample – ICU Nurse @ Mayo", r.resume.title)
+        assertTrue(requests.single().second.contains("LIGHT edit"))
+    }
+
+    @Test fun jobPostingPrefersSchemaOrgDataAndFallsBackToText() {
+        val html = """<html><head><title>x</title><script type="application/ld+json">
+            {"@context":"https://schema.org","@graph":[{"@type":"Organization"},{"@type":"JobPosting","title":"Data Analyst",
+             "hiringOrganization":{"name":"Acme"},"description":"&lt;p&gt;We need SQL and Python skills. ${"Long text. ".repeat(20)}&lt;/p&gt;"}]}
+            </script></head><body><nav>menu</nav><p>Other</p></body></html>"""
+        val t = com.androtask.app.ai.JobPosting.fromHtml(html)
+        assertTrue(t, t.startsWith("Job title: Data Analyst\nCompany: Acme\nWe need SQL"))
+        val plain = com.androtask.app.ai.JobPosting.fromHtml("<body><script>x()</script><h1>Nurse</h1><p>Care &amp; compassion</p></body>")
+        assertEquals("Nurse\nCare & compassion", plain)
+        assertTrue(com.androtask.app.ai.JobPosting.isMostlyLink("Check out this job at Acme: https://www.linkedin.com/jobs/view/123"))
+        assertFalse(com.androtask.app.ai.JobPosting.isMostlyLink("We are hiring. " + "Requirements: SQL. ".repeat(30) + " https://x.y"))
+        assertEquals("https://x.y/a", com.androtask.app.ai.JobPosting.firstUrl("see https://x.y/a."))
+    }
+
+    @Test fun jobPageFetchUsesTheServer() {
+        reply = "<html><body><p>" + "Senior nurse needed with ICU experience. ".repeat(10) + "</p></body></html>"
+        val t = com.androtask.app.ai.JobPosting.fetch("http://127.0.0.1:${server.address.port}/job/1")
+        assertTrue(t.startsWith("Senior nurse needed"))
+        status = 403; reply = "denied"
+        assertThrows(AiException::class.java) { com.androtask.app.ai.JobPosting.fetch("http://127.0.0.1:${server.address.port}/job/2") }
     }
 }

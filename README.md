@@ -10,7 +10,7 @@ Its main promise is the opposite of what competitors' 1-star reviews complain ab
 |---|---|
 | Sections | Personal details (+ optional photo), Summary, Experience, Education, Skills (with levels), Projects, Certifications, Languages, References, plus a custom section (Interests, Volunteering…) |
 | Editing | Autosave, reorder sections, hide sections, reorder/delete items, "one bullet per line" achievements, resume-strength score + checklist |
-| Gemini AI (optional) | **Import an existing resume** (PDF, Word .docx, text or photo) into editable fields; **Improve with AI** for the summary and each job's bullets (with Undo); **Improve / tailor to a job** creates an improved copy using a pasted job description |
+| Gemini AI (optional) | **Import an existing resume** (PDF, Word .docx, text or photo) into editable fields. **AI tools** card in the editor: **Tailor to a job posting** (paste text or a link; light edits only), **Career level** themes (Entry, Mid, Senior, Manager, Executive: wording plus layout) and **Improve wording**. Each makes a new copy and shows "What changed". **Improve with AI** on the summary and each job (with Undo). **Share a job from LinkedIn, Indeed or Chrome → Resume Builder** to tailor a resume to it |
 | Writing help (offline) | Example summaries, achievement bullets and skill suggestions for 8 common roles, plus a list of strong action verbs |
 | Templates | Classic, Modern, Minimal (all ATS-friendly single column) and Sidebar (two-column with photo); 8 accent colours; Sans or Serif |
 | PDF | Real multi-page A4 PDF with page numbers; automatically tightens spacing when that fits the resume on one page fewer |

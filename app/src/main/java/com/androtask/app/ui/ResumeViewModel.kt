@@ -189,16 +189,47 @@ class ResumeViewModel(app: Application) : AndroidViewModel(app) {
         } catch (e: Exception) { aiFailure(e) }
     }
 
-    /** Saves an AI-improved (optionally job-tailored) copy and returns its id; the original is untouched. */
-    suspend fun improveWithAi(id: String, jobDescription: String): Result<String> = withContext(Dispatchers.IO) {
+    /** "What changed" notes for resumes just produced by AI, shown once by the editor. */
+    private val _aiNotes = MutableStateFlow<Map<String, List<String>>>(emptyMap())
+    val aiNotes: StateFlow<Map<String, List<String>>> = _aiNotes.asStateFlow()
+    fun consumeNotes(id: String) { _aiNotes.value = _aiNotes.value - id }
+
+    /** Runs an AI rewrite that produces a new copy, saves it and returns its id. */
+    private suspend fun aiCopy(id: String, op: (ResumeAi, Resume) -> com.androtask.app.ai.AiResult): Result<String> =
+        withContext(Dispatchers.IO) {
+            try {
+                flush(id)
+                val original = resume(id) ?: error("Resume not found")
+                val result = op(ai(), original)
+                repo.save(result.resume)
+                withContext(Dispatchers.Main) {
+                    _resumes.value = listOf(result.resume) + _resumes.value
+                    _aiNotes.value = _aiNotes.value + (result.resume.id to result.changes)
+                }
+                Result.success(result.resume.id)
+            } catch (e: Exception) { aiFailure(e) }
+        }
+
+    suspend fun aiImprove(id: String) = aiCopy(id) { ai, r -> ai.improveResume(r) }
+    suspend fun aiReformat(id: String, level: com.androtask.app.ai.CareerLevel) = aiCopy(id) { ai, r -> ai.reformatForLevel(r, level) }
+    suspend fun aiTailor(id: String, jobText: String) = aiCopy(id) { ai, r -> ai.tailorToJob(r, jobText) }
+
+    /** Turns shared/pasted job text into a description, downloading the page when it's just a link. */
+    suspend fun resolveJobText(input: String): Result<String> = withContext(Dispatchers.IO) {
         try {
-            val original = resume(id) ?: error("Resume not found")
-            val improved = ai().improveResume(original, jobDescription)
-            repo.save(improved)
-            withContext(Dispatchers.Main) { _resumes.value = listOf(improved) + _resumes.value }
-            Result.success(improved.id)
+            val url = com.androtask.app.ai.JobPosting.firstUrl(input)
+            Result.success(
+                if (url != null && com.androtask.app.ai.JobPosting.isMostlyLink(input)) com.androtask.app.ai.JobPosting.fetch(url)
+                else input.trim(),
+            )
         } catch (e: Exception) { aiFailure(e) }
     }
+
+    // ---- Shared job postings (Share → Resume Builder) ----
+    private val _sharedJob = MutableStateFlow<String?>(null)
+    val sharedJob: StateFlow<String?> = _sharedJob.asStateFlow()
+    fun onJobShared(text: String) { if (text.isNotBlank()) _sharedJob.value = text }
+    fun clearSharedJob() { _sharedJob.value = null }
 
     suspend fun aiSummary(id: String): Result<String> = withContext(Dispatchers.IO) {
         try { Result.success(ai().improveSummary(resume(id) ?: error("Resume not found"))) } catch (e: Exception) { aiFailure(e) }

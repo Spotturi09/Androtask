@@ -49,7 +49,10 @@ class CreateEditFlowTest : FlowTestBase() {
 
         // Editor opens with personal details expanded.
         rule.onNodeWithText("Resume strength: 0%").assertIsDisplayed()
+        val list = rule.onNode(hasScrollAction())
+        list.performScrollToNode(hasSetTextAction() and hasText("Full name"))
         rule.onNode(hasSetTextAction() and hasText("Full name")).performTextInput("Alex Rivera")
+        list.performScrollToNode(hasSetTextAction() and hasText("Email"))
         rule.onNode(hasSetTextAction() and hasText("Email")).performTextInput("alex@example.com")
 
         // Leaving the app right after typing must not lose the edits.
@@ -67,8 +70,9 @@ class ReorderHideFlowTest : FlowTestBase() {
     @Test fun reorderAndHideSections() {
         rule.onNodeWithText("New resume", useUnmergedTree = true).performClick()
         rule.onNodeWithText("Create", useUnmergedTree = true).performClick()
-        rule.onNodeWithText("Personal details").performClick() // collapse
         val list = rule.onNode(hasScrollAction())
+        list.performScrollToNode(hasText("Personal details"))
+        rule.onNodeWithText("Personal details").performClick() // collapse
         list.performScrollToNode(hasContentDescription("Move Skills up"))
         rule.onNodeWithContentDescription("Move Skills up").performClick()
         list.performScrollToNode(hasContentDescription("Hide References from resume"))
@@ -98,5 +102,41 @@ class AiSettingsFlowTest : FlowTestBase() {
         rule.onNodeWithText("Save", useUnmergedTree = true).performClick()
         assertEquals("test-key-123", settings.apiKey)
         assertEquals(com.androtask.app.ai.GeminiClient.DEFAULT_MODEL, settings.model)
+    }
+}
+
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [33], application = TestApp::class)
+class ShareJobFlowTest {
+    @get:Rule val rule = androidx.compose.ui.test.junit4.createEmptyComposeRule()
+
+    @Test fun sharedJobOpensTailorScreenWithResumeChoice() {
+        val ctx = ApplicationProvider.getApplicationContext<android.app.Application>()
+        ResumeRepository(File(ctx.filesDir, "resumes")).save(
+            com.androtask.app.model.Resume(title = "My CV", personal = com.androtask.app.model.PersonalInfo(fullName = "Alex Rivera")),
+        )
+        val intent = android.content.Intent(ctx, MainActivity::class.java).apply {
+            action = android.content.Intent.ACTION_SEND
+            type = "text/plain"
+            putExtra(android.content.Intent.EXTRA_TEXT, "Senior Nurse at Mayo https://example.com/jobs/1")
+        }
+        androidx.test.core.app.ActivityScenario.launch<MainActivity>(intent).use {
+            rule.onNodeWithText("Tailor to this job").assertIsDisplayed()
+            rule.onNode(hasText("Senior Nurse at Mayo https://example.com/jobs/1")).assertExists()
+            rule.waitUntil(5000) { rule.onAllNodesWithText("My CV").fetchSemanticsNodes().isNotEmpty() }
+            rule.onNodeWithText("Tailor selected resume", useUnmergedTree = true).assertExists()
+        }
+    }
+}
+
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [33], application = TestApp::class)
+class AiToolsCardFlowTest : FlowTestBase() {
+    @Test fun editorShowsAiToolsAndAsksForKey() {
+        rule.onNodeWithText("New resume", useUnmergedTree = true).performClick()
+        rule.onNodeWithText("Create", useUnmergedTree = true).performClick()
+        rule.onNodeWithText("AI tools (Gemini)").assertIsDisplayed()
+        rule.onNodeWithText("Career level", useUnmergedTree = true).performClick()
+        rule.onNodeWithText("Gemini AI settings").assertIsDisplayed() // no key yet
     }
 }

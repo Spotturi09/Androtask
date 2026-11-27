@@ -124,6 +124,8 @@ fun EditorScreen(vm: ResumeViewModel, id: String, onBack: () -> Unit, onPreview:
     var aiError by remember { mutableStateOf<AiException?>(null) }
     var showAiSettings by remember { mutableStateOf(false) }
     var showTailor by remember { mutableStateOf(false) }
+    var showLevels by remember { mutableStateOf(false) }
+    val notes by vm.aiNotes.collectAsState()
 
     /** Runs an AI call with a progress dialog; asks for the API key first if missing. */
     fun <T> runAi(message: String, call: suspend () -> Result<T>, onOk: (T) -> Unit) {
@@ -168,9 +170,6 @@ fun EditorScreen(vm: ResumeViewModel, id: String, onBack: () -> Unit, onPreview:
                 title = { Text(resume?.title ?: "Resume", maxLines = 1) },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back") } },
                 actions = {
-                    IconButton(onClick = { if (vm.aiSettings.configured) showTailor = true else showAiSettings = true }) {
-                        Icon(Icons.Default.AutoAwesome, "Improve or tailor with AI")
-                    }
                     TextButton(onClick = onPreview) {
                         Icon(Icons.Default.PictureAsPdf, null); Spacer(Modifier.width(6.dp)); Text("Preview")
                     }
@@ -190,6 +189,13 @@ fun EditorScreen(vm: ResumeViewModel, id: String, onBack: () -> Unit, onPreview:
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             item { ProgressCard(resume) }
+            item {
+                AiToolsCard(
+                    onLevel = { if (vm.aiSettings.configured) showLevels = true else showAiSettings = true },
+                    onTailor = { if (vm.aiSettings.configured) showTailor = true else showAiSettings = true },
+                    onImprove = { runAi("Improving your wording…", { vm.aiImprove(id) }) { onOpenResume(it) } },
+                )
+            }
             item {
                 SectionCard(
                     title = "Personal details",
@@ -219,17 +225,39 @@ fun EditorScreen(vm: ResumeViewModel, id: String, onBack: () -> Unit, onPreview:
     }
 
     if (showAiSettings) AiSettingsDialog(vm.aiSettings, onDismiss = { showAiSettings = false })
-    if (showTailor) TailorDialog(onDismiss = { showTailor = false }) { job ->
+    if (showTailor) JobTailorDialog(onDismiss = { showTailor = false }) { input ->
         showTailor = false
-        scope.launch { vm.flush(id) }
-        runAi(if (job.isBlank()) "Improving your resume…" else "Tailoring your resume to the job…", { vm.improveWithAi(id, job) }) { newId ->
-            onOpenResume(newId)
-        }
+        runAi("Reading the job and tailoring your resume…", {
+            vm.resolveJobText(input).fold({ vm.aiTailor(id, it) }, { Result.failure(it) })
+        }) { onOpenResume(it) }
     }
+    if (showLevels) CareerLevelDialog(onDismiss = { showLevels = false }) { level ->
+        showLevels = false
+        runAi("Reformatting for ${level.label}…", { vm.aiReformat(id, level) }) { onOpenResume(it) }
+    }
+    notes[id]?.let { changes -> ChangesDialog(changes) { vm.consumeNotes(id) } }
     busy?.let { AiBusyDialog(it) }
     aiError?.let { e ->
         AiErrorDialog(e.message ?: "Unknown error", onDismiss = { aiError = null },
             onOpenSettings = if (e.kind in setOf(AiException.Kind.NO_KEY, AiException.Kind.BAD_KEY, AiException.Kind.BAD_MODEL)) ({ showAiSettings = true }) else null)
+    }
+}
+
+@Composable
+private fun AiToolsCard(onLevel: () -> Unit, onTailor: () -> Unit, onImprove: () -> Unit) {
+    Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)) {
+        Column(Modifier.padding(14.dp).fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(Icons.Default.AutoAwesome, null); Spacer(Modifier.width(8.dp))
+                Text("AI tools (Gemini)", style = MaterialTheme.typography.titleSmall)
+            }
+            Text("Each creates a new copy, so this resume stays as it is.", style = MaterialTheme.typography.bodySmall)
+            Button(onClick = onTailor, modifier = Modifier.fillMaxWidth()) { Text("Tailor to a job posting") }
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                OutlinedButton(onClick = onLevel, modifier = Modifier.weight(1f)) { Text("Career level", maxLines = 1) }
+                OutlinedButton(onClick = onImprove, modifier = Modifier.weight(1f)) { Text("Improve wording", maxLines = 1) }
+            }
+        }
     }
 }
 

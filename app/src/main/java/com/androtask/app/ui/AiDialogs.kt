@@ -39,6 +39,12 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.androtask.app.ai.AiSettings
+import com.androtask.app.ai.CareerLevel
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.HorizontalDivider
 import com.androtask.app.ai.GeminiClient
 
 /** File types the importer accepts. */
@@ -148,24 +154,75 @@ fun AiErrorDialog(message: String, onDismiss: () -> Unit, onOpenSettings: (() ->
 }
 
 @Composable
-fun TailorDialog(onDismiss: () -> Unit, onStart: (String) -> Unit) {
-    var job by remember { mutableStateOf("") }
+fun CareerLevelDialog(onDismiss: () -> Unit, onPick: (CareerLevel) -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
         icon = { Icon(Icons.Default.AutoAwesome, null) },
-        title = { Text("Improve with AI") },
+        title = { Text("Reformat for career level") },
+        text = {
+            Column(Modifier.verticalScroll(rememberScrollState())) {
+                Text("Gemini re-pitches your wording for the level, and the layout, section order and colours change to suit. " +
+                    "Saved as a new copy.", style = MaterialTheme.typography.bodyMedium)
+                Spacer(Modifier.height(8.dp))
+                CareerLevel.entries.forEach { level ->
+                    Column(
+                        Modifier.fillMaxWidth().clickable { onPick(level) }.padding(vertical = 10.dp),
+                    ) {
+                        Text(level.label, style = MaterialTheme.typography.titleSmall)
+                        Text(level.description, style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                    HorizontalDivider()
+                }
+            }
+        },
+        confirmButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
+    )
+}
+
+/** Paste a job description or a link to the posting; [initial] pre-fills shared text. */
+@Composable
+fun JobTailorDialog(initial: String = "", onDismiss: () -> Unit, onStart: (String) -> Unit) {
+    var job by remember { mutableStateOf(initial) }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        icon = { Icon(Icons.Default.AutoAwesome, null) },
+        title = { Text("Tailor to a job") },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text("Gemini rewrites your summary and bullet points for impact and fixes grammar. " +
-                    "Paste a job ad to tailor it to that job. It's saved as a new copy, so your original stays as it is.",
+                Text("Paste the job description or a link to the posting. Gemini makes light changes: summary, the order " +
+                    "of your bullets and skills, and matching keywords. Your facts stay the same. Saved as a new copy.",
                     style = MaterialTheme.typography.bodyMedium)
+                Text("Tip: in LinkedIn, Indeed or Chrome, tap Share → Resume Builder.",
+                    style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 OutlinedTextField(
-                    job, { job = it }, label = { Text("Job description (optional)") }, minLines = 4,
-                    modifier = Modifier.fillMaxWidth().heightIn(max = 240.dp).padding(top = 4.dp),
+                    job, { job = it }, label = { Text("Job description or link") }, minLines = 4,
+                    modifier = Modifier.fillMaxWidth().heightIn(max = 260.dp),
                 )
             }
         },
-        confirmButton = { TextButton(onClick = { onStart(job) }) { Text(if (job.isBlank()) "Improve" else "Tailor") } },
+        confirmButton = { TextButton(enabled = job.isNotBlank(), onClick = { onStart(job) }) { Text("Tailor") } },
         dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
+    )
+}
+
+@Composable
+fun ChangesDialog(changes: List<String>, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        icon = { Icon(Icons.Default.AutoAwesome, null) },
+        title = { Text("New copy created") },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Text("Your original resume wasn't changed.", style = MaterialTheme.typography.bodyMedium)
+                if (changes.isNotEmpty()) {
+                    Text("What Gemini changed:", style = MaterialTheme.typography.titleSmall)
+                    changes.forEach { Text("• $it", style = MaterialTheme.typography.bodyMedium) }
+                }
+                Text("Please review it, and fill in any [placeholders].", style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        },
+        confirmButton = { TextButton(onClick = onDismiss) { Text("Review") } },
     )
 }
